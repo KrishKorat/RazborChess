@@ -1,4 +1,4 @@
-# ChessLab ♟️
+# RazborChess ♟️
 
 > A professional, client-side chess analysis and game review workstation inspired by Chess.com and Lichess. Built with React 18, TypeScript, Tailwind CSS, and the official Stockfish 19 WASM engine.
 
@@ -11,7 +11,7 @@
 
 ## 🌟 Overview
 
-**ChessLab** delivers an in-depth chess analysis experience directly in your browser. Unlike proprietary platforms gated behind paid monthly tiers or cloud servers, ChessLab executes **100% locally** on your device. Every move validation, engine search, game review calculation, and database persistence operation runs without external APIs or telemetry.
+**RazborChess** delivers an in-depth chess analysis experience directly in your browser. Unlike proprietary platforms gated behind paid monthly tiers or cloud servers, RazborChess executes **100% locally** on your device. Every move validation, engine search, game review calculation, and database persistence operation runs without external APIs or telemetry.
 
 ### Designed for Modest Hardware
 Engineered specifically for everyday laptops (Intel Core i3 12th Gen, 8GB RAM, integrated graphics):
@@ -137,8 +137,8 @@ Engineered specifically for everyday laptops (Intel Core i3 12th Gen, 8GB RAM, i
 ### Installation
 Clone the repository and install dependencies:
 ```bash
-git clone https://github.com/your-username/chesslab.git
-cd chesslab
+git clone https://github.com/your-username/RazborChess.git
+cd RazborChess
 npm install
 ```
 
@@ -173,5 +173,4 @@ npm run preview
 ## ⚖️ License & Attribution
 
 - **Stockfish Engine:** Stockfish is licensed under the [GNU General Public License v3 (GPL-3.0)](https://www.gnu.org/licenses/gpl-3.0.html). The Stockfish WASM binary and license text are included in `public/stockfish/LICENSE.txt`.
-- **ChessLab:** Licensed under the [GNU General Public License v3 (GPL-3.0)](LICENSE).
-- **Disclaimer:** ChessLab is an independent open-source educational project and is not affiliated with, sponsored by, or endorsed by Chess.com or Lichess. Move classifications, accuracy calculations, and estimated ratings are transparent heuristics designed for learning and analysis.
+- **Disclaimer:** RazborChess is an independent open-source educational project and is not affiliated with, sponsored by, or endorsed by Chess.com or Lichess. Move classifications, accuracy calculations, and estimated ratings are transparent heuristics designed for learning and analysis.
