@@ -62,29 +62,29 @@ export const VariationExplorer: React.FC<VariationExplorerProps> = ({
   const nagOptions = ['!', '?', '!!', '??', '!?', '?!'];
 
   return (
-    <div className="flex flex-col h-full space-y-3 text-xs overflow-y-auto pr-1 text-[#F3F5FF]">
+    <div className="flex flex-col h-full space-y-3 text-xs overflow-y-auto pr-1 text-[#F3EFFB]">
       {/* Active Position Context Banner */}
-      <div className="bg-[#1C2949] p-3 rounded-md border border-[#344567] space-y-2 shadow-sm">
+      <div className="bg-[#292440] p-3.5 rounded-2xl border border-[#443B60] space-y-2 shadow-xs">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <GitBranch className="w-3.5 h-3.5 text-[#A9B8F2]" />
-            <span className="font-semibold text-[#F3F5FF]">Position Context</span>
+            <GitBranch className="w-3.5 h-3.5 text-[#B7A5E8]" />
+            <span className="font-semibold text-[#F3EFFB] tracking-wide">Position Context</span>
           </div>
-          <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold border ${
+          <span className={`text-[10px] font-mono px-2.5 py-0.5 rounded-full font-semibold tracking-wide border ${
             isMainline 
-              ? 'bg-[#243454] text-[#A9B8F2] border-[#344567]' 
-              : 'bg-[#151F3B] text-[#A7B3D0] border-[#344567]'
+              ? 'bg-[#B7A5E8]/20 text-[#B7A5E8] border-[#B7A5E8]/35' 
+              : 'bg-[#201D35] text-[#B8AFD1] border-[#443B60]'
           }`}>
             {isMainline ? 'Mainline' : 'Variation Branch'}
           </span>
         </div>
 
-        <div className="text-[11px] text-[#A7B3D0] flex items-center justify-between">
+        <div className="text-[11px] text-[#B8AFD1] flex items-center justify-between">
           <span>Ply {currentNode.ply} {currentNode.san ? `(${currentNode.san})` : '(Start)'}</span>
           {!isMainline && (
             <button
               onClick={onReturnToMainline}
-              className="text-[10px] text-[#A9B8F2] hover:underline flex items-center gap-1 font-medium"
+              className="text-[10px] text-[#B7A5E8] hover:underline flex items-center gap-1 font-medium tracking-wide"
             >
               <CornerUpLeft className="w-3 h-3" />
               <span>Return to Mainline</span>
@@ -94,10 +94,10 @@ export const VariationExplorer: React.FC<VariationExplorerProps> = ({
       </div>
 
       {/* Alternative Continuations from this position */}
-      <div className="bg-[#1C2949] p-3 rounded-md border border-[#344567] space-y-2 shadow-sm">
-        <div className="flex items-center justify-between text-[#A7B3D0] font-medium pb-1 border-b border-[#344567]">
+      <div className="bg-[#292440] p-3.5 rounded-2xl border border-[#443B60] space-y-2 shadow-xs">
+        <div className="flex items-center justify-between text-[#B8AFD1] font-semibold tracking-wide pb-1 border-b border-[#443B60]">
           <span>Available Continuations ({childrenNodes.length})</span>
-          <span className="text-[10px] text-[#A7B3D0]/80">Play move or click branch</span>
+          <span className="text-[10px] text-[#8C81A8]">Play move or click branch</span>
         </div>
 
         {childrenNodes.length > 0 ? (
@@ -107,18 +107,18 @@ export const VariationExplorer: React.FC<VariationExplorerProps> = ({
               return (
                 <div
                   key={child.id}
-                  className="bg-[#151F3B] p-2 rounded border border-[#344567] flex items-center justify-between"
+                  className="bg-[#201D35] p-2 rounded-xl border border-[#443B60] flex items-center justify-between"
                 >
                   <button
                     onClick={() => onSelectNode(child.id)}
-                    className="flex items-center gap-2 hover:text-[#A9B8F2] transition text-left"
+                    className="flex items-center gap-2 hover:text-[#B7A5E8] transition text-left"
                   >
-                    <span className="font-mono font-bold text-[#F3F5FF]">
+                    <span className="font-mono font-bold text-[#F3EFFB]">
                       {child.color === 'w' ? `${child.moveNumber}. ` : `${child.moveNumber}... `}
                       {child.san}
                     </span>
-                    <span className={`text-[9px] px-1.5 py-0.5 rounded font-medium border ${
-                      isChildMain ? 'text-[#A9B8F2] bg-[#243454] border-[#344567]' : 'text-[#A7B3D0] bg-[#1C2949] border-[#344567]'
+                    <span className={`text-[9px] px-2 py-0.5 rounded-full font-medium tracking-wide border ${
+                      isChildMain ? 'text-[#B7A5E8] bg-[#B7A5E8]/20 border-[#B7A5E8]/30' : 'text-[#B8AFD1] bg-white/[0.04] border-[#443B60]'
                     }`}>
                       {isChildMain ? 'Primary Line' : `Variation #${idx}`}
                     </span>
@@ -128,7 +128,7 @@ export const VariationExplorer: React.FC<VariationExplorerProps> = ({
                     {!isChildMain && (
                       <button
                         onClick={() => onPromoteVariation(child.id)}
-                        className="p-1 text-[#A7B3D0] hover:text-[#A9B8F2] hover:bg-[#243454] rounded transition"
+                        className="p-1 text-[#B8AFD1] hover:text-[#B7A5E8] hover:bg-white/[0.06] rounded-lg transition"
                         title="Promote to Mainline"
                       >
                         <ArrowUpRight className="w-3.5 h-3.5" />
@@ -136,7 +136,7 @@ export const VariationExplorer: React.FC<VariationExplorerProps> = ({
                     )}
                     <button
                       onClick={() => setDeletingNodeId(child.id)}
-                      className="p-1 text-[#A7B3D0] hover:text-[#FCA5A5] hover:bg-red-950/40 rounded transition"
+                      className="p-1 text-[#B8AFD1] hover:text-[#d3503c] hover:bg-[#d3503c]/15 rounded-lg transition"
                       title="Delete Variation"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -147,7 +147,7 @@ export const VariationExplorer: React.FC<VariationExplorerProps> = ({
             })}
           </div>
         ) : (
-          <div className="text-center py-4 text-[#A7B3D0] italic text-[11px]">
+          <div className="text-center py-4 text-[#B8AFD1] italic text-[11px]">
             No continuations played yet from this position. Play a move on the board to branch.
           </div>
         )}
@@ -155,20 +155,20 @@ export const VariationExplorer: React.FC<VariationExplorerProps> = ({
 
       {/* Sibling Variations (Alternatives from the previous move) */}
       {siblingNodes.length > 0 && (
-        <div className="bg-[#1C2949] p-3 rounded-md border border-[#344567] space-y-2 shadow-sm">
-          <div className="text-[#A7B3D0] font-medium pb-1 border-b border-[#344567] flex justify-between items-center">
+        <div className="bg-[#292440] p-3.5 rounded-2xl border border-[#443B60] space-y-2 shadow-xs">
+          <div className="text-[#B8AFD1] font-semibold tracking-wide pb-1 border-b border-[#443B60] flex justify-between items-center">
             <span>Alternative Choices from Previous Move</span>
-            <span className="text-[10px] text-[#A7B3D0]/80">{siblingNodes.length} alternatives</span>
+            <span className="text-[10px] text-[#8C81A8]">{siblingNodes.length} alternatives</span>
           </div>
           <div className="flex flex-wrap gap-1.5 pt-1">
             {siblingNodes.map((sibling) => (
               <button
                 key={sibling.id}
                 onClick={() => onSelectNode(sibling.id)}
-                className="py-1 px-2.5 rounded bg-[#151F3B] hover:bg-[#243454] border border-[#344567] text-[#F3F5FF] font-mono text-[11px] flex items-center gap-1 transition"
+                className="py-1 px-2.5 rounded-xl bg-[#201D35] hover:bg-[#332D4D] border border-[#443B60] hover:border-[#B7A5E8]/40 text-[#F3EFFB] font-mono text-[11px] flex items-center gap-1 transition"
               >
                 <span>{sibling.san}</span>
-                {sibling.nag && <span className="text-[#A9B8F2] font-bold">{sibling.nag}</span>}
+                {sibling.nag && <span className="text-[#B7A5E8] font-bold">{sibling.nag}</span>}
               </button>
             ))}
           </div>
@@ -177,15 +177,15 @@ export const VariationExplorer: React.FC<VariationExplorerProps> = ({
 
       {/* Engine MultiPV Candidate Integration */}
       {multiPvLines.length > 0 && (
-        <div className="bg-[#1C2949] p-3 rounded-md border border-[#344567] space-y-2 shadow-sm">
-          <div className="flex items-center justify-between text-[#F3F5FF]">
-            <span className="font-semibold text-[#F3F5FF] flex items-center gap-1.5 text-xs">
-              <Sparkles className="w-3.5 h-3.5 text-[#A9B8F2]" />
+        <div className="bg-[#292440] p-3.5 rounded-2xl border border-[#443B60] space-y-2 shadow-xs">
+          <div className="flex items-center justify-between text-[#F3EFFB]">
+            <span className="font-semibold text-[#F3EFFB] flex items-center gap-1.5 text-xs tracking-wide">
+              <Sparkles className="w-3.5 h-3.5 text-[#B7A5E8]" />
               Engine Candidate Variations
             </span>
-            <span className="text-[10px] text-[#A7B3D0]">Stockfish 19</span>
+            <span className="text-[10px] text-[#8C81A8] font-mono font-medium">Stockfish 19</span>
           </div>
-          <p className="text-[10px] text-[#A7B3D0]">
+          <p className="text-[10px] text-[#B8AFD1]">
             Click to play an engine recommendation into this variation branch:
           </p>
 
@@ -193,18 +193,18 @@ export const VariationExplorer: React.FC<VariationExplorerProps> = ({
             {multiPvLines.map((line) => (
               <div
                 key={line.id}
-                className="bg-[#151F3B] p-2 rounded border border-[#344567] flex items-center justify-between text-[11px]"
+                className="bg-[#201D35] p-2 rounded-xl border border-[#443B60] flex items-center justify-between text-[11px]"
               >
                 <div className="flex items-center gap-2 font-mono">
-                  <span className="text-[#A9B8F2] font-bold">#{line.id}</span>
-                  <span className="text-[#F3F5FF] font-semibold">{line.bestMove}</span>
-                  <span className="text-[#A7B3D0] text-[10px]">
+                  <span className="text-[#B7A5E8] font-bold">#{line.id}</span>
+                  <span className="text-[#F3EFFB] font-semibold">{line.bestMove}</span>
+                  <span className="text-[#B8AFD1] text-[10px]">
                     ({(line.score / 100).toFixed(2)})
                   </span>
                 </div>
                 <button
                   onClick={() => onPlayEngineMove(line.bestMove)}
-                  className="py-1 px-2 bg-[#243454] hover:bg-[#7895E8] text-[#A9B8F2] hover:text-white rounded font-semibold text-[10px] flex items-center gap-1 transition border border-[#344567]"
+                  className="py-1 px-2.5 bg-[#201D35] hover:bg-[#B7A5E8] text-[#B7A5E8] hover:text-[#171525] rounded-xl font-semibold tracking-wide text-[10px] flex items-center gap-1 transition border border-[#443B60]"
                 >
                   <Plus className="w-3 h-3" />
                   <span>Play as Branch</span>
@@ -217,25 +217,25 @@ export const VariationExplorer: React.FC<VariationExplorerProps> = ({
 
       {/* Move Annotation & Comment Editor */}
       {currentNode.id !== 'root' && (
-        <div className="bg-[#1C2949] p-3 rounded-md border border-[#344567] space-y-2 shadow-sm">
-          <div className="flex items-center justify-between text-[#F3F5FF]">
-            <span className="font-semibold text-[#F3F5FF] flex items-center gap-1.5 text-xs">
-              <MessageSquare className="w-3.5 h-3.5 text-[#A9B8F2]" />
-              Move Notes & Annotations
+        <div className="bg-[#292440] p-3.5 rounded-2xl border border-[#443B60] space-y-2 shadow-xs">
+          <div className="flex items-center justify-between text-[#F3EFFB]">
+            <span className="font-semibold text-[#F3EFFB] flex items-center gap-1.5 text-xs tracking-wide">
+              <MessageSquare className="w-3.5 h-3.5 text-[#B7A5E8]" />
+              Move Notes &amp; Annotations
             </span>
           </div>
 
           {/* Glyph / NAG selector */}
-          <div className="flex items-center gap-1 pt-1">
-            <span className="text-[10px] text-[#A7B3D0] mr-1">Glyph:</span>
+          <div className="flex items-center gap-1.5 pt-1">
+            <span className="text-[10px] text-[#B8AFD1] mr-1 font-semibold">Glyph:</span>
             {nagOptions.map((nag) => (
               <button
                 key={nag}
                 onClick={() => onSetNag(currentNode.id, currentNode.nag === nag ? '' : nag)}
-                className={`py-0.5 px-2 rounded font-mono font-bold text-xs border transition ${
+                className={`py-0.5 px-2.5 rounded-xl font-mono font-medium text-xs border transition ${
                   currentNode.nag === nag
-                    ? 'bg-[#7895E8] text-white border-[#7895E8] shadow-sm'
-                    : 'bg-[#151F3B] text-[#F3F5FF] border-[#344567] hover:bg-[#243454]'
+                    ? 'bg-[#B7A5E8] text-[#171525] font-semibold border-[#B7A5E8]/60 shadow-xs'
+                    : 'bg-[#201D35] text-[#F3EFFB] border-[#443B60] hover:bg-[#332D4D]'
                 }`}
               >
                 {nag}
@@ -252,18 +252,18 @@ export const VariationExplorer: React.FC<VariationExplorerProps> = ({
                   onChange={(e) => setCommentInput(e.target.value)}
                   placeholder="Add notes for this move..."
                   rows={2}
-                  className="w-full bg-[#151F3B] border border-[#344567] rounded p-2 text-[#F3F5FF] text-xs focus:outline-none focus:border-[#7895E8]"
+                  className="w-full bg-[#201D35] border border-[#443B60] rounded-xl p-2.5 text-[#F3EFFB] text-xs focus:outline-none focus:border-[#B7A5E8]"
                 />
                 <div className="flex justify-end gap-1.5">
                   <button
                     onClick={() => setIsEditingComment(false)}
-                    className="px-2 py-1 text-[#A7B3D0] hover:text-[#F3F5FF] text-[11px]"
+                    className="px-2.5 py-1 text-[#B8AFD1] hover:text-[#F3EFFB] text-[11px]"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleSaveComment}
-                    className="px-3 py-1 bg-[#7895E8] hover:bg-[#6885D8] text-white font-semibold rounded text-[11px] flex items-center gap-1 shadow-sm"
+                    className="px-3 py-1 bg-[#B7A5E8] hover:bg-[#C4B5FD] text-[#171525] font-semibold rounded-xl text-[11px] flex items-center gap-1 shadow-xs"
                   >
                     <Check className="w-3 h-3" />
                     <span>Save Note</span>
@@ -273,7 +273,7 @@ export const VariationExplorer: React.FC<VariationExplorerProps> = ({
             ) : (
               <div 
                 onClick={() => { setCommentInput(currentNode.comment || ''); setIsEditingComment(true); }}
-                className="bg-[#151F3B] p-2 rounded border border-[#344567] text-[#A7B3D0] hover:border-[#7895E8] cursor-pointer min-h-[32px] text-[11px] italic"
+                className="bg-[#201D35] p-2.5 rounded-xl border border-[#443B60] text-[#B8AFD1] hover:border-[#B7A5E8]/40 cursor-pointer min-h-[32px] text-[11px] italic"
               >
                 {currentNode.comment || 'Click here to add notes or analysis ideas...'}
               </div>

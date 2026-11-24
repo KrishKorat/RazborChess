@@ -145,12 +145,12 @@ export const CLASSIFICATION_CONFIG: Record<
   book: {
     label: 'Book',
     symbol: '📖',
-    color: 'text-[#C084FC]',
-    bgColor: 'bg-[#6B21A8]/25',
-    borderColor: 'border-[#C084FC]/50',
-    badgeBg: 'bg-[#6B21A8]/25',
-    badgeText: 'text-[#C084FC]',
-    badgeBorder: 'border-[#C084FC]/50',
+    color: 'text-[#D4A373]',
+    bgColor: 'bg-[#785434]/30',
+    borderColor: 'border-[#D4A373]/50',
+    badgeBg: 'bg-[#785434]/30',
+    badgeText: 'text-[#D4A373]',
+    badgeBorder: 'border-[#D4A373]/50',
     description: 'Standard opening book theory move.',
   },
 };
@@ -241,15 +241,15 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
   }, [report, activeFilter, categoryFilter]);
 
   return (
-    <div className="flex flex-col h-full space-y-4 text-xs text-[#EDF2FF] overflow-y-auto pr-1">
+    <div className="flex flex-col h-full space-y-4 text-xs text-[#F3EFFB] overflow-y-auto pr-1">
       {/* 1. Header & Controls */}
-      <div className="bg-[#192744] p-4 sm:p-5 rounded-2xl border border-[#304263] space-y-3 shadow-md">
+      <div className="bg-[#292440] p-4 sm:p-5 rounded-2xl border border-[#443B60] space-y-3 shadow-xs">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Award className="w-5 h-5 text-[#8EA6F0]" />
-            <h3 className="font-bold text-[#EDF2FF] text-sm sm:text-base tracking-tight">Game Review</h3>
+            <Award className="w-5 h-5 text-[#B7A5E8]" />
+            <h3 className="font-bold text-[#F3EFFB] text-sm sm:text-base tracking-wide">Game Review</h3>
           </div>
-          <span className="text-xs text-[#9AAAC9] font-mono">
+          <span className="text-xs text-[#B8AFD1] font-mono">
             {totalPlies} {totalPlies === 1 ? 'ply' : 'plies'} played
           </span>
         </div>
@@ -258,26 +258,26 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
         {isReviewing ? (
           <div className="space-y-2.5 pt-1">
             <div className="flex justify-between items-center text-xs">
-              <span className="text-[#EDF2FF] font-semibold animate-pulse flex items-center gap-1.5">
-                <Zap className="w-4 h-4 text-amber-400 fill-amber-400" />
+              <span className="text-[#F3EFFB] font-semibold animate-pulse flex items-center gap-1.5">
+                <Zap className="w-4 h-4 text-[#B7A5E8] fill-[#B7A5E8]" />
                 Analyzing {progress?.currentMoveSan ? `"${progress.currentMoveSan}"` : 'position'}...
               </span>
-              <span className="font-mono text-[#8EA6F0] font-bold">
+              <span className="font-mono text-[#B7A5E8] font-bold">
                 {progress?.currentStep || 0} / {progress?.totalSteps || totalPlies} ({progress?.percentage || 0}%)
               </span>
             </div>
 
             {/* Progress bar */}
-            <div className="w-full bg-[#131E36] h-2.5 rounded-full overflow-hidden border border-[#304263]">
+            <div className="w-full bg-[#201D35] h-2.5 rounded-full overflow-hidden border border-[#443B60]">
               <div 
-                className="bg-gradient-to-r from-[#6685DB] to-[#8EA6F0] h-full transition-all duration-300 ease-out rounded-full"
+                className="bg-[#B7A5E8] h-full transition-all duration-300 ease-out rounded-full"
                 style={{ width: `${progress?.percentage || 0}%` }}
               />
             </div>
 
             <button
               onClick={onCancelReview}
-              className="w-full py-2 px-3 bg-red-950/40 hover:bg-red-900/40 text-red-300 border border-red-700/50 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition active:scale-[0.99]"
+              className="w-full py-2 px-3 bg-[#d3503c]/20 hover:bg-[#d3503c]/30 text-[#F3EFFB] border border-[#d3503c]/40 rounded-xl text-xs font-semibold tracking-wide flex items-center justify-center gap-1.5 transition active:scale-[0.99]"
             >
               <Square className="w-3.5 h-3.5 fill-current" />
               <span>Cancel Review</span>
@@ -286,7 +286,7 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
         ) : (
           <div className="space-y-3 pt-1">
             <div className="flex items-center justify-between gap-2 flex-wrap">
-              <span className="text-xs text-[#9AAAC9] font-medium">Analysis Depth:</span>
+              <span className="text-xs text-[#B8AFD1] font-semibold tracking-wide">Analysis Depth:</span>
               <div className="flex gap-1.5">
                 {[
                   { depth: 12, label: 'Fast (12)' },
@@ -297,10 +297,10 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
                   <button
                     key={d.depth}
                     onClick={() => setSelectedDepth(d.depth)}
-                    className={`px-2.5 py-1 rounded-xl text-xs font-semibold border transition ${
+                    className={`px-2.5 py-1 rounded-xl text-xs font-semibold tracking-wide border transition ${
                       selectedDepth === d.depth
-                        ? 'bg-[#6685DB] text-white font-bold border-[#6685DB] shadow-xs'
-                        : 'bg-[#202F50] text-[#9AAAC9] border-[#304263] hover:bg-[#2A3E66] hover:text-[#EDF2FF]'
+                        ? 'bg-[#B7A5E8] text-[#171525] border-[#B7A5E8] shadow-xs'
+                        : 'bg-[#201D35] text-[#B8AFD1] border-[#443B60] hover:bg-[#332D4D] hover:text-[#F3EFFB]'
                     }`}
                   >
                     {d.label}
@@ -310,14 +310,14 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
             </div>
 
             {/* Fresh Analysis Option */}
-            <div className="flex items-center justify-between text-xs text-[#9AAAC9] pt-0.5">
+            <div className="flex items-center justify-between text-xs text-[#B8AFD1] pt-0.5">
               <span>Fresh Analysis:</span>
-              <label className="flex items-center gap-1.5 cursor-pointer text-[#EDF2FF] hover:text-[#8EA6F0]">
+              <label className="flex items-center gap-1.5 cursor-pointer text-[#F3EFFB] hover:text-[#B7A5E8]">
                 <input
                   type="checkbox"
                   checked={forceFresh}
                   onChange={(e) => setForceFresh(e.target.checked)}
-                  className="rounded border-[#304263] text-[#6685DB] accent-[#6685DB] cursor-pointer"
+                  className="rounded border-[#443B60] text-[#B7A5E8] accent-[#B7A5E8] cursor-pointer"
                 />
                 <span className="text-xs">Bypass cached evaluations</span>
               </label>
@@ -326,7 +326,7 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
             <button
               onClick={() => onStartReview(selectedDepth, forceFresh)}
               disabled={totalPlies === 0}
-              className="w-full py-2.5 px-4 bg-[#6685DB] hover:bg-[#5774C9] disabled:bg-slate-800 disabled:text-slate-600 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition shadow-sm active:scale-[0.99]"
+              className="w-full py-2.5 px-4 bg-[#B7A5E8] hover:bg-[#C4B5FD] disabled:bg-[#201D35] disabled:text-[#8C81A8] text-[#171525] rounded-xl text-xs sm:text-sm font-semibold tracking-wide flex items-center justify-center gap-2 transition shadow-xs border border-[#B7A5E8]/50 active:scale-[0.99]"
             >
               <Play className="w-4 h-4 fill-current" />
               <span>{report ? 'Re-Analyze Game' : 'Start Game Review'}</span>
@@ -337,7 +337,7 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
 
       {/* Legacy Review Warning */}
       {report && report.schemaVersion !== CURRENT_REVIEW_SCHEMA_VERSION && (
-        <div className="bg-amber-950/40 border border-amber-700/50 p-3 rounded-2xl text-amber-300 text-xs space-y-1">
+        <div className="bg-amber-950/40 border border-amber-700/50 p-3 rounded-xl text-amber-300 text-xs space-y-1">
           <div className="font-semibold flex items-center gap-1 text-amber-200">
             <Info className="w-4 h-4" />
             Legacy Review Format Detected
@@ -352,34 +352,34 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
       {report && (
         <>
           {/* Perspective Selector Pill */}
-          <div className="bg-[#192744] p-3 rounded-2xl border border-[#304263] flex items-center justify-between text-xs shadow-sm">
-            <div className="flex items-center gap-1.5 text-[#9AAAC9]">
-              <UserCheck className="w-4 h-4 text-[#8EA6F0]" />
-              <span className="font-semibold text-[#EDF2FF]">Review Perspective:</span>
+          <div className="bg-[#292440] p-3 rounded-2xl border border-[#443B60] flex items-center justify-between text-xs shadow-xs">
+            <div className="flex items-center gap-1.5 text-[#B8AFD1]">
+              <UserCheck className="w-4 h-4 text-[#B7A5E8]" />
+              <span className="font-semibold text-[#F3EFFB] tracking-wide">Review Perspective:</span>
             </div>
             <div className="flex gap-2">
               <button
                 onClick={() => setUserPerspective('w')}
-                className={`px-3 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 border ${
+                className={`px-3 py-1 rounded-xl text-xs font-semibold tracking-wide transition flex items-center gap-1.5 border ${
                   userPerspective === 'w'
-                    ? 'bg-[#6685DB] text-white border-[#6685DB] shadow-xs'
-                    : 'bg-[#202F50] text-[#9AAAC9] border-[#304263] hover:text-[#EDF2FF] hover:bg-[#2A3E66]'
+                    ? 'bg-[#B7A5E8] text-[#171525] border-[#B7A5E8] shadow-xs'
+                    : 'bg-[#201D35] text-[#B8AFD1] border-[#443B60] hover:text-[#F3EFFB] hover:bg-[#332D4D]'
                 }`}
                 title="Review moves from White's perspective"
               >
-                <span className="w-2 h-2 rounded-full bg-[#DFE7F5] shrink-0 shadow-xs" />
+                <span className="w-2 h-2 rounded-full bg-[#F3EFFB] shrink-0 shadow-xs" />
                 <span>{metadata.white || 'White'} (You)</span>
               </button>
               <button
                 onClick={() => setUserPerspective('b')}
-                className={`px-3 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 border ${
+                className={`px-3 py-1 rounded-xl text-xs font-semibold tracking-wide transition flex items-center gap-1.5 border ${
                   userPerspective === 'b'
-                    ? 'bg-[#6685DB] text-white border-[#6685DB] shadow-xs'
-                    : 'bg-[#202F50] text-[#9AAAC9] border-[#304263] hover:text-[#EDF2FF] hover:bg-[#2A3E66]'
+                    ? 'bg-[#B7A5E8] text-[#171525] border-[#B7A5E8] shadow-xs'
+                    : 'bg-[#201D35] text-[#B8AFD1] border-[#443B60] hover:text-[#F3EFFB] hover:bg-[#332D4D]'
                 }`}
                 title="Review moves from Black's perspective"
               >
-                <span className="w-2 h-2 rounded-full bg-[#0D1428] border border-[#64748B] shrink-0" />
+                <span className="w-2 h-2 rounded-full bg-[#12101D] border border-[#443B60] shrink-0" />
                 <span>{metadata.black || 'Black'} (You)</span>
               </button>
             </div>
@@ -388,52 +388,52 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
           {/* Accuracy & Estimated Elo Cards */}
           <div className="grid grid-cols-2 gap-3">
             {/* White Player Card */}
-            <div className={`p-4 rounded-2xl border space-y-2 shadow-sm transition ${
+            <div className={`p-4 rounded-2xl border space-y-2 shadow-xs transition ${
               userPerspective === 'w' 
-                ? 'bg-[#202F50] border-[#6685DB] ring-2 ring-[#6685DB]/30' 
-                : 'bg-[#192744] border-[#304263]'
+                ? 'bg-[#332D4D] border-[#B7A5E8]/50' 
+                : 'bg-[#292440] border-[#443B60]'
             }`}>
               <div className="flex items-center justify-between">
-                <span className="font-bold text-[#EDF2FF] flex items-center gap-1.5 min-w-0">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#DFE7F5] shrink-0 inline-block shadow-xs" />
+                <span className="font-bold text-[#F3EFFB] flex items-center gap-1.5 min-w-0">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#F3EFFB] shrink-0 inline-block shadow-xs" />
                   <span className="truncate max-w-[100px]">{metadata.white || 'White'}</span>
-                  {userPerspective === 'w' && <span className="text-[10px] text-[#8EA6F0] font-bold">(You)</span>}
+                  {userPerspective === 'w' && <span className="text-[10px] text-[#B7A5E8] font-bold">(You)</span>}
                 </span>
-                <span className="text-[11px] text-[#9AAAC9] shrink-0 font-mono" title="Average Centipawn Loss">{report.whiteAcpl} ACPL</span>
+                <span className="text-[11px] text-[#B7A5E8] shrink-0 font-mono" title="Average Centipawn Loss">{report.whiteAcpl} ACPL</span>
               </div>
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-black text-[#EDF2FF] tracking-tight">{report.whiteAccuracy}%</span>
-                <span className="text-xs text-[#9AAAC9]">accuracy</span>
+                <span className="text-3xl font-black text-[#F3EFFB] tracking-tight">{report.whiteAccuracy}%</span>
+                <span className="text-xs text-[#B8AFD1]">accuracy</span>
               </div>
-              <div className="text-xs text-[#9AAAC9] flex items-center justify-between border-t border-[#304263] pt-2">
+              <div className="text-xs text-[#B8AFD1] flex items-center justify-between border-t border-[#443B60] pt-2">
                 <span>Tier:</span>
-                <span className="font-semibold text-[#8EA6F0] truncate max-w-[120px]" title={getPerformanceTier(report.whiteAccuracy, report.moves.filter(m => m.color === 'w').length)}>
+                <span className="font-semibold text-[#B7A5E8] truncate max-w-[120px]" title={getPerformanceTier(report.whiteAccuracy, report.moves.filter(m => m.color === 'w').length)}>
                   {getPerformanceTier(report.whiteAccuracy, report.moves.filter(m => m.color === 'w').length)}
                 </span>
               </div>
             </div>
 
             {/* Black Player Card */}
-            <div className={`p-4 rounded-2xl border space-y-2 shadow-sm transition ${
+            <div className={`p-4 rounded-2xl border space-y-2 shadow-xs transition ${
               userPerspective === 'b' 
-                ? 'bg-[#202F50] border-[#6685DB] ring-2 ring-[#6685DB]/30' 
-                : 'bg-[#192744] border-[#304263]'
+                ? 'bg-[#332D4D] border-[#B7A5E8]/50' 
+                : 'bg-[#292440] border-[#443B60]'
             }`}>
               <div className="flex items-center justify-between">
-                <span className="font-bold text-[#EDF2FF] flex items-center gap-1.5 min-w-0">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#0D1428] border border-[#64748B] shrink-0 inline-block" />
+                <span className="font-bold text-[#F3EFFB] flex items-center gap-1.5 min-w-0">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#12101D] border border-[#443B60] shrink-0 inline-block" />
                   <span className="truncate max-w-[100px]">{metadata.black || 'Black'}</span>
-                  {userPerspective === 'b' && <span className="text-[10px] text-[#8EA6F0] font-bold">(You)</span>}
+                  {userPerspective === 'b' && <span className="text-[10px] text-[#B7A5E8] font-bold">(You)</span>}
                 </span>
-                <span className="text-[11px] text-[#9AAAC9] shrink-0 font-mono" title="Average Centipawn Loss">{report.blackAcpl} ACPL</span>
+                <span className="text-[11px] text-[#B7A5E8] shrink-0 font-mono" title="Average Centipawn Loss">{report.blackAcpl} ACPL</span>
               </div>
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-black text-[#EDF2FF] tracking-tight">{report.blackAccuracy}%</span>
-                <span className="text-xs text-[#9AAAC9]">accuracy</span>
+                <span className="text-3xl font-black text-[#F3EFFB] tracking-tight">{report.blackAccuracy}%</span>
+                <span className="text-xs text-[#B8AFD1]">accuracy</span>
               </div>
-              <div className="text-xs text-[#9AAAC9] flex items-center justify-between border-t border-[#304263] pt-2">
+              <div className="text-xs text-[#B8AFD1] flex items-center justify-between border-t border-[#443B60] pt-2">
                 <span>Tier:</span>
-                <span className="font-semibold text-[#8EA6F0] truncate max-w-[120px]" title={getPerformanceTier(report.blackAccuracy, report.moves.filter(m => m.color === 'b').length)}>
+                <span className="font-semibold text-[#B7A5E8] truncate max-w-[120px]" title={getPerformanceTier(report.blackAccuracy, report.moves.filter(m => m.color === 'b').length)}>
                   {getPerformanceTier(report.blackAccuracy, report.moves.filter(m => m.color === 'b').length)}
                 </span>
               </div>
@@ -441,30 +441,30 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
           </div>
 
           {/* Performance assessment info toggle */}
-          <div className="text-xs text-[#9AAAC9] flex items-center justify-between px-1">
+          <div className="text-xs text-[#B8AFD1] flex items-center justify-between px-1">
             <span className="flex items-center gap-1">
-              <Info className="w-3.5 h-3.5 text-[#9AAAC9]" />
-              Accuracy & ACPL definitions
+              <Info className="w-3.5 h-3.5 text-[#B7A5E8]" />
+              Accuracy &amp; ACPL definitions
             </span>
             <button
               onClick={() => setShowEloDisclaimer(!showEloDisclaimer)}
-              className="text-[#8EA6F0] hover:underline font-semibold"
+              className="text-[#B7A5E8] hover:underline font-semibold"
             >
               {showEloDisclaimer ? 'Hide' : 'Explain'}
             </button>
           </div>
           {showEloDisclaimer && (
-            <div className="bg-[#192744] p-3.5 rounded-2xl border border-[#304263] text-xs text-[#9AAAC9] leading-relaxed space-y-1.5 shadow-xs">
-              <p><strong className="text-[#EDF2FF]">Accuracy (0–100%):</strong> Measures how well moves preserved winning expectancy relative to optimal engine play.</p>
-              <p><strong className="text-[#EDF2FF]">ACPL (Average Centipawn Loss):</strong> The average score drop per move in hundredths of a pawn (100 cp = 1 pawn). Lower is better.</p>
+            <div className="bg-[#292440] p-3.5 rounded-2xl border border-[#443B60] text-xs text-[#B8AFD1] leading-relaxed space-y-1.5 shadow-xs">
+              <p><strong className="text-[#F3EFFB]">Accuracy (0–100%):</strong> Measures how well moves preserved winning expectancy relative to optimal engine play.</p>
+              <p><strong className="text-[#F3EFFB]">ACPL (Average Centipawn Loss):</strong> The average score drop per move in hundredths of a pawn (100 cp = 1 pawn). Lower is better.</p>
             </div>
           )}
 
           {/* 3. Classification Breakdown Table */}
-          <div className="bg-[#192744] p-4 rounded-2xl border border-[#304263] space-y-2 shadow-sm">
-            <div className="flex justify-between items-center text-xs font-bold text-[#EDF2FF]">
+          <div className="bg-[#292440] p-4 rounded-2xl border border-[#443B60] space-y-2 shadow-xs">
+            <div className="flex justify-between items-center text-xs font-bold text-[#F3EFFB]">
               <span>Move Classifications</span>
-              <div className="flex gap-5 text-xs text-[#9AAAC9] font-mono">
+              <div className="flex gap-5 text-xs text-[#B8AFD1] font-mono">
                 <span>White</span>
                 <span>Black</span>
               </div>
@@ -497,8 +497,8 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
                     onClick={() => setCategoryFilter(isSelected ? null : cat)}
                     className={`w-full flex items-center justify-between text-xs py-1.5 px-2.5 rounded-xl transition text-left cursor-pointer ${
                       isSelected
-                        ? 'bg-[#202F50] ring-1 ring-[#6685DB]'
-                        : 'hover:bg-[#202F50]/60'
+                        ? 'bg-[#332D4D] ring-1 ring-[#B7A5E8]'
+                        : 'hover:bg-white/[0.04]'
                     }`}
                     title={`${conf.description} (click to filter move list)`}
                   >
@@ -506,13 +506,13 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
                       <span className={`w-5 text-center font-bold font-mono text-xs ${conf.color}`}>
                         {conf.symbol}
                       </span>
-                      <span className="text-[#EDF2FF] font-medium">{conf.label}</span>
+                      <span className="text-[#F3EFFB] font-medium">{conf.label}</span>
                     </div>
                     <div className="flex gap-7 font-mono text-xs">
-                      <span className={`w-3 text-right font-bold ${wCount > 0 ? conf.color : 'text-[#9AAAC9]'}`}>
+                      <span className={`w-3 text-right font-bold ${wCount > 0 ? conf.color : 'text-[#8C81A8]'}`}>
                         {wCount}
                       </span>
-                      <span className={`w-3 text-right font-bold ${bCount > 0 ? conf.color : 'text-[#9AAAC9]'}`}>
+                      <span className={`w-3 text-right font-bold ${bCount > 0 ? conf.color : 'text-[#8C81A8]'}`}>
                         {bCount}
                       </span>
                     </div>
@@ -523,24 +523,24 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
           </div>
 
           {/* 4. Phase Breakdown Table */}
-          <div className="bg-[#192744] p-4 rounded-2xl border border-[#304263] space-y-2 shadow-sm">
-            <span className="text-xs font-bold text-[#EDF2FF] block">Phase Accuracy</span>
+          <div className="bg-[#292440] p-4 rounded-2xl border border-[#443B60] space-y-2 shadow-xs">
+            <span className="text-xs font-bold text-[#F3EFFB] block">Phase Accuracy</span>
             <div className="grid grid-cols-3 gap-2 text-center text-xs">
-              <div className="bg-[#131E36] p-2.5 rounded-xl border border-[#304263]">
-                <div className="text-[#9AAAC9] uppercase font-bold text-[10px] mb-1">Opening</div>
-                <div className="font-mono text-[#EDF2FF] font-bold">
+              <div className="bg-[#201D35] p-2.5 rounded-xl border border-[#443B60]">
+                <div className="text-[#8C81A8] uppercase font-bold text-[10px] mb-1">Opening</div>
+                <div className="font-mono text-[#F3EFFB] font-bold">
                   {report.whitePhaseAccuracy.opening}% / {report.blackPhaseAccuracy.opening}%
                 </div>
               </div>
-              <div className="bg-[#131E36] p-2.5 rounded-xl border border-[#304263]">
-                <div className="text-[#9AAAC9] uppercase font-bold text-[10px] mb-1">Middlegame</div>
-                <div className="font-mono text-[#EDF2FF] font-bold">
+              <div className="bg-[#201D35] p-2.5 rounded-xl border border-[#443B60]">
+                <div className="text-[#8C81A8] uppercase font-bold text-[10px] mb-1">Middlegame</div>
+                <div className="font-mono text-[#F3EFFB] font-bold">
                   {report.whitePhaseAccuracy.middlegame}% / {report.blackPhaseAccuracy.middlegame}%
                 </div>
               </div>
-              <div className="bg-[#131E36] p-2.5 rounded-xl border border-[#304263]">
-                <div className="text-[#9AAAC9] uppercase font-bold text-[10px] mb-1">Endgame</div>
-                <div className="font-mono text-[#EDF2FF] font-bold">
+              <div className="bg-[#201D35] p-2.5 rounded-xl border border-[#443B60]">
+                <div className="text-[#8C81A8] uppercase font-bold text-[10px] mb-1">Endgame</div>
+                <div className="font-mono text-[#F3EFFB] font-bold">
                   {report.whitePhaseAccuracy.endgame}% / {report.blackPhaseAccuracy.endgame}%
                 </div>
               </div>
@@ -560,11 +560,11 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
           />
 
           {/* 6. Move-by-Move Review List */}
-          <div className="bg-[#192744] p-4 rounded-2xl border border-[#304263] space-y-3 flex-1 flex flex-col min-h-[240px] shadow-sm">
+          <div className="bg-[#292440] p-4 rounded-2xl border border-[#443B60] space-y-3 flex-1 flex flex-col min-h-[240px] shadow-xs">
             {/* Filter pills */}
-            <div className="flex items-center justify-between pb-2 border-b border-[#304263]">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-[#EDF2FF]">
-                <Filter className="w-3.5 h-3.5 text-[#8EA6F0]" />
+            <div className="flex items-center justify-between pb-2 border-b border-[#443B60]">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-[#F3EFFB]">
+                <Filter className="w-3.5 h-3.5 text-[#B7A5E8]" />
                 <span>Move List ({filteredMoves.length})</span>
               </div>
               <div className="flex gap-1.5">
@@ -584,8 +584,8 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
                     }}
                     className={`px-2.5 py-1 rounded-xl text-xs transition font-semibold ${
                       activeFilter === f.id && !categoryFilter
-                        ? 'bg-[#6685DB] text-white shadow-xs'
-                        : 'bg-[#202F50] text-[#9AAAC9] hover:text-[#EDF2FF] hover:bg-[#2A3E66]'
+                        ? 'bg-[#B7A5E8] text-[#171525] shadow-xs'
+                        : 'bg-[#201D35] text-[#B8AFD1] hover:text-[#F3EFFB] hover:bg-[#332D4D]'
                     }`}
                   >
                     {f.label}
@@ -595,7 +595,7 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
             </div>
 
             {categoryFilter && (
-              <div className="flex items-center justify-between bg-[#131E36] px-3 py-1.5 rounded-xl text-xs text-[#EDF2FF] border border-[#304263]">
+              <div className="flex items-center justify-between bg-[#201D35] px-3 py-1.5 rounded-xl text-xs text-[#F3EFFB] border border-[#443B60]">
                 <span>
                   Filtered by:{' '}
                   <strong className={CLASSIFICATION_CONFIG[categoryFilter].color}>
@@ -604,7 +604,7 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
                 </span>
                 <button
                   onClick={() => setCategoryFilter(null)}
-                  className="text-[#8EA6F0] hover:underline font-semibold"
+                  className="text-[#B7A5E8] hover:underline font-semibold"
                 >
                   Clear filter
                 </button>
@@ -617,7 +617,7 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
               className="space-y-1.5 overflow-y-auto max-h-[300px] pr-1"
             >
               {filteredMoves.length === 0 ? (
-                <div className="text-center py-8 text-[#9AAAC9] text-xs">
+                <div className="text-center py-8 text-[#B8AFD1] text-xs">
                   No moves match filter
                 </div>
               ) : (
@@ -632,8 +632,8 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
                       onClick={() => onSelectMove(step.ply)}
                       className={`w-full text-left p-2 rounded-xl border text-xs transition flex items-center justify-between ${
                         isSelected 
-                          ? 'bg-[#202F50] border-[#6685DB] shadow-xs ring-1 ring-[#6685DB]/50' 
-                          : 'bg-[#131E36] border-[#304263] hover:bg-[#202F50] hover:border-[#6685DB]/40'
+                          ? 'bg-[#332D4D] border-[#B7A5E8] shadow-xs ring-1 ring-[#B7A5E8]/50' 
+                          : 'bg-[#201D35] border-[#443B60]/80 hover:bg-[#332D4D] hover:border-[#5A4E7E]'
                       }`}
                     >
                       <div className="flex items-center gap-2.5">
@@ -647,15 +647,15 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
 
                         {/* Move SAN */}
                         <div className="flex items-center gap-1.5 font-medium">
-                          <span className="text-[#9AAAC9] font-mono text-xs">
+                          <span className="text-[#B8AFD1] font-mono text-xs">
                             {step.color === 'w' ? `${step.moveNumber}.` : `${step.moveNumber}...`}
                           </span>
-                          <span className="font-extrabold text-[#EDF2FF] font-mono">{step.san}</span>
+                          <span className="font-extrabold text-[#F3EFFB] font-mono">{step.san}</span>
                         </div>
 
                         {/* Played vs Best Move comparison */}
                         {step.classification !== 'best' && step.classification !== 'brilliant' && step.classification !== 'forced' && step.classification !== 'book' && step.bestMoveSan && (
-                          <span className="text-xs text-[#9AAAC9] truncate max-w-[100px]">
+                          <span className="text-xs text-[#B8AFD1] truncate max-w-[100px]">
                             (Best: <span className="text-[#4ADE80] font-semibold">{step.bestMoveSan}</span>)
                           </span>
                         )}
@@ -664,7 +664,7 @@ export const GameReviewDashboard: React.FC<GameReviewDashboardProps> = ({
                       <div className="flex items-center gap-2.5 shrink-0">
                         {/* Centipawn loss display */}
                         {step.centipawnLoss > 0 ? (
-                          <span className="text-xs font-mono text-[#F87171] font-semibold">
+                          <span className="text-xs font-mono text-[#d3503c] font-semibold">
                             -{step.centipawnLoss} cp
                           </span>
                         ) : (

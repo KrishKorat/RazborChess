@@ -23,29 +23,29 @@ export const PromotionDialog: React.FC<PromotionDialogProps> = ({
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#10172D]/80 backdrop-blur-sm p-4">
-      <div className="bg-[#1C2949] border border-[#344567] rounded-lg p-5 shadow-2xl max-w-sm w-full mx-4 text-center text-[#F3F5FF]">
-        <h3 className="text-sm font-semibold text-[#F3F5FF] mb-1">Promote Pawn</h3>
-        <p className="text-xs text-[#A7B3D0] mb-4">Choose a piece to promote your pawn to:</p>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+      <div className="bg-[#292440] border border-[#443B60] rounded-2xl p-5 shadow-2xl max-w-sm w-full mx-4 text-center text-[#F3EFFB]">
+        <h3 className="text-sm font-semibold text-[#F3EFFB] tracking-wide mb-1">Promote Pawn</h3>
+        <p className="text-xs text-[#B8AFD1] mb-4">Choose a piece to promote your pawn:</p>
 
         <div className="grid grid-cols-4 gap-3 mb-4">
           {pieces.map((p) => (
             <button
               key={p.type}
               onClick={() => onSelect(p.type)}
-              className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#151F3B] hover:bg-[#243454] border border-[#344567] hover:border-[#7895E8] transition group shadow-sm min-h-[64px]"
+              className="flex flex-col items-center justify-center p-3 rounded-xl bg-[#201D35] hover:bg-[#332D4D] border border-[#443B60] hover:border-[#B7A5E8]/50 hover:shadow-xs transition group shadow-xs min-h-[64px]"
             >
-              <span className="text-4xl text-[#F3F5FF] group-hover:scale-110 transition-transform select-none">
+              <span className="text-4xl text-[#F3EFFB] group-hover:text-[#B7A5E8] group-hover:scale-110 transition-transform select-none">
                 {p.symbol}
               </span>
-              <span className="text-[11px] font-medium text-[#A7B3D0] mt-1 group-hover:text-[#A9B8F2]">{p.label}</span>
+              <span className="text-[10px] font-medium tracking-wide text-[#B8AFD1] mt-1 group-hover:text-[#B7A5E8]">{p.label}</span>
             </button>
           ))}
         </div>
 
         <button
           onClick={onCancel}
-          className="text-xs text-[#A7B3D0] hover:text-[#F3F5FF] transition underline font-medium p-1"
+          className="text-xs text-[#B8AFD1] hover:text-[#d3503c] transition font-medium tracking-wide p-1"
         >
           Cancel Move
         </button>

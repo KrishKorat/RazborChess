@@ -31,11 +31,11 @@ export const DetailedMovePanel: React.FC<DetailedMovePanelProps> = ({
 }) => {
   if (!step) {
     return (
-      <div className="bg-[#192744] p-6 rounded-2xl border border-[#304263] text-center text-xs text-[#9AAAC9] space-y-2 flex flex-col items-center justify-center min-h-[150px] shadow-sm">
-        <HelpCircle className="w-7 h-7 text-[#8EA6F0] mb-1 opacity-90" />
-        <span className="text-[#EDF2FF] font-bold text-sm">No Move Selected</span>
+      <div className="bg-[#292440] p-6 rounded-2xl border border-[#443B60] text-center text-xs text-[#B8AFD1] space-y-2 flex flex-col items-center justify-center min-h-[150px] shadow-xs">
+        <HelpCircle className="w-7 h-7 text-[#B7A5E8] mb-1 opacity-90" />
+        <span className="text-[#F3EFFB] font-bold text-sm tracking-wide">No Move Selected</span>
         <p className="text-xs max-w-[280px] leading-relaxed">
-          Select any move from the list below or use your arrow keys to review interactive move-by-move coaching.
+          Select any move from the list or use your arrow keys to review interactive move-by-move coaching.
         </p>
       </div>
     );
@@ -80,21 +80,21 @@ export const DetailedMovePanel: React.FC<DetailedMovePanelProps> = ({
   const canGoNext = step.ply < totalPlies;
 
   return (
-    <div className="bg-[#192744] p-4 sm:p-5 rounded-2xl border border-[#304263] shadow-md flex flex-col space-y-3.5 text-sm text-[#EDF2FF]">
+    <div className="bg-[#292440] p-4 sm:p-5 rounded-2xl border border-[#443B60] shadow-xs flex flex-col space-y-3.5 text-sm text-[#F3EFFB]">
       {/* 1. Header with Perspective Badge, Move SAN, Classification, and Navigation */}
-      <div className="flex items-center justify-between gap-2 border-b border-[#304263] pb-3">
+      <div className="flex items-center justify-between gap-2 border-b border-[#443B60] pb-3">
         <div className="flex items-center gap-2.5 min-w-0 flex-wrap">
           {/* User vs Opponent Pill */}
           <span 
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wide border transition-all ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wide border transition-all ${
               isUserMove 
-                ? 'bg-[#202F50] text-[#C5D5FA] border-[#6685DB]/60' 
-                : 'bg-[#131E36] text-[#9AAAC9] border-[#304263]'
+                ? 'bg-[#B7A5E8]/20 text-[#B7A5E8] border-[#B7A5E8]/30' 
+                : 'bg-[#201D35] text-[#B8AFD1] border-[#443B60]'
             }`}
           >
             <span 
               className={`w-2 h-2 rounded-full shrink-0 ${
-                step.color === 'w' ? 'bg-[#DFE7F5]' : 'bg-[#0D1428] border border-[#64748B]'
+                step.color === 'w' ? 'bg-[#F3EFFB]' : 'bg-[#12101D] border border-[#443B60]'
               }`}
             />
             <span>{isUserMove ? 'Your Move' : "Opponent's Move"}</span>
@@ -103,20 +103,20 @@ export const DetailedMovePanel: React.FC<DetailedMovePanelProps> = ({
 
           {/* Move SAN */}
           <div className="flex items-baseline gap-1.5">
-            <span className="font-mono text-[#9AAAC9] text-sm font-semibold">
+            <span className="font-mono text-[#B8AFD1] text-sm font-semibold">
               {step.color === 'w' ? `${step.moveNumber}.` : `${step.moveNumber}...`}
             </span>
-            <span className="font-extrabold text-base text-[#EDF2FF] font-mono tracking-wide">
+            <span className="font-bold text-base text-[#F3EFFB] font-mono tracking-wide">
               {step.san}
             </span>
           </div>
 
           {/* Prominent Classification Badge */}
           <span 
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border shrink-0 ${conf.badgeBg || conf.bgColor} ${conf.badgeText || conf.color} ${conf.badgeBorder || conf.borderColor}`}
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold border shrink-0 ${conf.badgeBg || conf.bgColor} ${conf.badgeText || conf.color} ${conf.badgeBorder || conf.borderColor}`}
             title={conf.description}
           >
-            <span className="font-mono font-black">{conf.symbol}</span>
+            <span className="font-mono font-bold">{conf.symbol}</span>
             <span>{conf.label}</span>
           </span>
         </div>
@@ -127,19 +127,19 @@ export const DetailedMovePanel: React.FC<DetailedMovePanelProps> = ({
             onClick={() => onSelectMove(step.ply - 1)}
             disabled={!canGoPrev}
             aria-label="Previous move"
-            className="p-1.5 sm:p-2 rounded-xl bg-[#202F50] border border-[#304263] hover:bg-[#2A3E66] disabled:opacity-30 disabled:hover:bg-[#202F50] transition text-[#EDF2FF] active:scale-95"
+            className="p-1.5 sm:p-2 rounded-xl bg-[#201D35] border border-[#443B60] hover:border-[#5A4E7E] hover:bg-[#332D4D] disabled:opacity-30 disabled:hover:bg-transparent transition text-[#F3EFFB] active:scale-95"
             title="Previous Move (Left Arrow)"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <span className="text-xs text-[#9AAAC9] font-mono px-1 font-semibold">
+          <span className="text-xs text-[#B8AFD1] font-mono px-1 font-semibold">
             {step.ply}/{totalPlies}
           </span>
           <button
             onClick={() => onSelectMove(step.ply + 1)}
             disabled={!canGoNext}
             aria-label="Next move"
-            className="p-1.5 sm:p-2 rounded-xl bg-[#202F50] border border-[#304263] hover:bg-[#2A3E66] disabled:opacity-30 disabled:hover:bg-[#202F50] transition text-[#EDF2FF] active:scale-95"
+            className="p-1.5 sm:p-2 rounded-xl bg-[#201D35] border border-[#443B60] hover:border-[#5A4E7E] hover:bg-[#332D4D] disabled:opacity-30 disabled:hover:bg-transparent transition text-[#F3EFFB] active:scale-95"
             title="Next Move (Right Arrow)"
           >
             <ChevronRight className="w-4 h-4" />
@@ -147,15 +147,15 @@ export const DetailedMovePanel: React.FC<DetailedMovePanelProps> = ({
         </div>
       </div>
 
-      {/* 2. Intelligent Move Feedback (Coaching Guidance) */}
-      <div className="bg-[#202F50] p-3.5 rounded-xl border border-[#304263] flex items-start gap-3 shadow-xs">
-        <Sparkles className="w-5 h-5 text-[#8EA6F0] shrink-0 mt-0.5" />
+      {/* 2. Intelligent Move Feedback (Tactical Briefing) */}
+      <div className="bg-[#201D35] p-3.5 rounded-xl border border-[#443B60] flex items-start gap-3 shadow-xs">
+        <Sparkles className="w-5 h-5 text-[#B7A5E8] shrink-0 mt-0.5" />
         <div className="space-y-1 text-xs sm:text-sm">
-          <p className="text-[#EDF2FF] font-medium leading-relaxed">
+          <p className="text-[#F3EFFB] font-medium leading-relaxed">
             {explanation}
           </p>
           {structuredExplanation.why && structuredExplanation.why !== explanation && (
-            <p className="text-[#9AAAC9] text-xs leading-relaxed">
+            <p className="text-[#B8AFD1] text-xs leading-relaxed">
               {structuredExplanation.why}
             </p>
           )}
@@ -164,11 +164,11 @@ export const DetailedMovePanel: React.FC<DetailedMovePanelProps> = ({
 
       {/* 3. Best Move Suggestion & Interactive Preview (when played move differs from engine recommendation) */}
       {showBestMoveComparison ? (
-        <div className="bg-[#064E3B]/20 p-3.5 rounded-xl border border-[#059669]/40 space-y-2.5 text-xs">
+        <div className="bg-[#201D35] p-3.5 rounded-xl border border-[#443B60] space-y-2.5 text-xs">
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <div className="flex items-center gap-1.5">
-              <span className="text-[#A7F3D0] font-medium text-xs">Best engine move:</span>
-              <span className="font-extrabold text-sm text-[#4ADE80] font-mono">
+              <span className="text-[#B8AFD1] font-medium text-xs">Best engine move:</span>
+              <span className="font-bold text-sm text-[#81b64c] font-mono">
                 {bestMoveSan}
               </span>
             </div>
@@ -176,22 +176,22 @@ export const DetailedMovePanel: React.FC<DetailedMovePanelProps> = ({
 
           {/* Coach's explanation of what the recommended alternative accomplishes */}
           {structuredExplanation.bestMoveIdea && (
-            <div className="text-xs text-[#D1FAE5] leading-relaxed pt-1.5 border-t border-[#059669]/30 flex items-start gap-1.5">
-              <span className="font-semibold text-[#6EE7B7] shrink-0">Coach's Idea:</span>
+            <div className="text-xs text-[#F3EFFB] leading-relaxed pt-1.5 border-t border-[#443B60] flex items-start gap-1.5">
+              <span className="font-semibold text-[#B7A5E8] shrink-0">Coach's Idea:</span>
               <span>{structuredExplanation.bestMoveIdea}</span>
             </div>
           )}
 
           {bestPvSan.length > 0 && (
-            <div className="text-xs text-[#A7F3D0] flex items-center gap-1.5 pt-1.5 border-t border-[#059669]/30">
-              <span className="font-semibold text-[#6EE7B7]">Continuation:</span>
-              <span className="font-mono text-[#4ADE80] font-medium truncate">{bestPvSan.join(' ')}</span>
+            <div className="text-xs text-[#B8AFD1] flex items-center gap-1.5 pt-1.5 border-t border-[#443B60]">
+              <span className="font-semibold text-[#B7A5E8]">Continuation:</span>
+              <span className="font-mono text-[#B8AFD1] font-medium truncate">{bestPvSan.join(' ')}</span>
             </div>
           )}
         </div>
       ) : isBestMove ? (
-        <div className="bg-[#064E3B]/20 border border-[#059669]/40 px-3.5 py-2 rounded-xl flex items-center gap-2 text-xs text-[#6EE7B7] font-medium">
-          <CheckCircle2 className="w-4 h-4 text-[#34D399] shrink-0" />
+        <div className="bg-[#201D35] border border-[#443B60] px-3.5 py-2.5 rounded-xl flex items-center gap-2 text-xs text-[#B7A5E8] font-medium">
+          <CheckCircle2 className="w-4 h-4 text-[#B7A5E8] shrink-0" />
           <span>{step.classification === 'forced' ? 'Forced move played.' : "Played move is the engine's top choice."}</span>
         </div>
       ) : null}

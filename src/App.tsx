@@ -38,6 +38,8 @@ import { getIndexedDbService } from './services/storage/indexedDbService';
 import { parseMultiGamePgn, parsedGameToSavedGame, exportMultiGamePgn, generateGameTitle } from './services/storage/pgnLibrary';
 import { GameMetadata, GameReviewReport, GameReviewStep, CURRENT_REVIEW_SCHEMA_VERSION } from './types/chess';
 import { SavedGame } from './types/storage';
+import { calculateMaterial } from './services/chess/materialScore';
+import { CapturedPiecesDisplay } from './components/CapturedPiecesDisplay';
 
 export default function App() {
   const [tree] = useState(() => new VariationTree());
@@ -487,6 +489,7 @@ export default function App() {
   // Automated Game Review Actions
   const handleStartReview = useCallback(async (targetDepth: number, forceFresh: boolean = false) => {
     if (isReviewingRef.current) return;
+    isReviewingRef.current = true;
     stopSearch();
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
@@ -591,6 +594,7 @@ export default function App() {
       console.error('Game review failed:', err);
     } finally {
       setIsReviewing(false);
+      isReviewingRef.current = false;
       reviewServiceRef.current = null;
     }
   }, [tree, evalCache, activeGameId, storage, stopSearch, syncTreeState, metadata, isFlipped, activeTab]);
@@ -600,6 +604,7 @@ export default function App() {
       reviewServiceRef.current.cancel();
     }
     setIsReviewing(false);
+    isReviewingRef.current = false;
   }, []);
 
   const handleSelectReviewMove = useCallback((ply: number) => {
@@ -1085,42 +1090,46 @@ export default function App() {
   const bottomPlayerElo = !isFlipped ? metadata.whiteElo : metadata.blackElo;
   const isBottomPlayerTurn = turnColor === bottomPlayerColor;
 
+  // Active board FEN for material calculation (accounts for preview mode or regular board)
+  const activeFen = previewMoveState ? previewMoveState.fen : fen;
+  const materialState = useMemo(() => calculateMaterial(activeFen), [activeFen]);
+
   return (
-    <div className="flex flex-col h-screen w-full bg-[#0D1428] text-[#EDF2FF] overflow-hidden select-none">
+    <div className="flex flex-col h-screen w-full bg-[#171525] text-[#F3EFFB] overflow-hidden select-none">
       {/* Top Header */}
-      <header className="h-14 border-b border-[#304263] bg-[#131E36] px-3 sm:px-6 flex items-center justify-between select-none shrink-0 shadow-md z-20">
+      <header className="h-14 border-b border-[#443B60] bg-[#201D35] px-3 sm:px-6 flex items-center justify-between select-none shrink-0 shadow-sm z-20">
         <div className="flex items-center gap-2.5">
-          <span className="text-xl sm:text-2xl font-bold tracking-tight text-[#EDF2FF] flex items-center gap-2">
-            <span className="text-[#8EA6F0] text-2xl sm:text-3xl leading-none select-none drop-shadow-[0_0_10px_rgba(102,133,219,0.7)] font-serif" aria-hidden="true">♚</span>
+          <span className="text-[#B7A5E8] text-2xl sm:text-3xl leading-none select-none font-serif" aria-hidden="true">♚</span>
+          <h1 className="text-lg sm:text-xl font-bold tracking-tight text-[#F3EFFB] m-0">
             RazborChess
-          </span>
+          </h1>
         </div>
 
         <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Toggle Best-Move Arrows */}
           <button
             onClick={() => setShowArrows(!showArrows)}
-            className={`p-2 sm:p-2 min-h-[36px] min-w-[36px] flex items-center justify-center rounded-xl border transition ${
+            className={`p-2 min-h-[36px] min-w-[36px] flex items-center justify-center rounded-xl border transition-all ${
               showArrows 
-                ? 'bg-[#6685DB] text-white border-[#6685DB] shadow-sm' 
-                : 'bg-[#192744] text-[#9AAAC9] border-[#304263] hover:text-[#EDF2FF] hover:bg-[#202F50]'
+                ? 'bg-[#B7A5E8] text-[#171525] border-[#B7A5E8] shadow-xs' 
+                : 'bg-[#292440] text-[#B8AFD1] border-[#443B60] hover:text-[#F3EFFB] hover:border-[#5A4E7E] hover:bg-[#332D4D]'
             }`}
             title={showArrows ? 'Engine Best-Move Arrows: On' : 'Engine Best-Move Arrows: Off'}
           >
-            {showArrows ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+            {showArrows ? <Eye className="w-4 h-4 text-[#171525]" /> : <EyeOff className="w-4 h-4" />}
           </button>
 
           {/* Toggle On-Board Move Classification Icons */}
           <button
             onClick={() => setShowClassificationMarkers(!showClassificationMarkers)}
-            className={`p-2 sm:p-2 min-h-[36px] min-w-[36px] flex items-center justify-center rounded-xl border transition ${
+            className={`p-2 min-h-[36px] min-w-[36px] flex items-center justify-center rounded-xl border transition-all ${
               showClassificationMarkers 
-                ? 'bg-[#6685DB] text-white border-[#6685DB] shadow-sm' 
-                : 'bg-[#192744] text-[#9AAAC9] border-[#304263] hover:text-[#EDF2FF] hover:bg-[#202F50]'
+                ? 'bg-[#B7A5E8] text-[#171525] border-[#B7A5E8] shadow-xs' 
+                : 'bg-[#292440] text-[#B8AFD1] border-[#443B60] hover:text-[#F3EFFB] hover:border-[#5A4E7E] hover:bg-[#332D4D]'
             }`}
             title={showClassificationMarkers ? 'On-Board Classification Icons: On' : 'On-Board Classification Icons: Off'}
           >
-            <Award className="w-4 h-4" />
+            {showClassificationMarkers ? <Award className="w-4 h-4 text-[#171525]" /> : <Award className="w-4 h-4 text-[#B8AFD1]" />}
           </button>
 
           {/* Quick Action Buttons */}
@@ -1129,10 +1138,10 @@ export default function App() {
               setModalInitialTab('import');
               setIsModalOpen(true);
             }}
-            className="flex items-center gap-1.5 text-xs bg-[#192744] hover:bg-[#202F50] text-[#EDF2FF] px-3 py-2 rounded-xl transition font-medium border border-[#304263] min-h-[36px] shadow-xs"
+            className="flex items-center gap-1.5 text-xs bg-[#292440] hover:bg-[#332D4D] text-[#F3EFFB] px-3 py-2 rounded-xl transition font-medium border border-[#443B60] hover:border-[#5A4E7E] min-h-[36px]"
             title="Import FEN or PGN"
           >
-            <Download className="w-4 h-4 text-[#8EA6F0]" />
+            <Download className="w-4 h-4 text-[#B8AFD1]" />
             <span className="hidden sm:inline">Import</span>
           </button>
           <button 
@@ -1140,15 +1149,15 @@ export default function App() {
               setModalInitialTab('export');
               setIsModalOpen(true);
             }}
-            className="flex items-center gap-1.5 text-xs bg-[#192744] hover:bg-[#202F50] text-[#EDF2FF] px-3 py-2 rounded-xl transition font-medium border border-[#304263] min-h-[36px] shadow-xs"
+            className="flex items-center gap-1.5 text-xs bg-[#292440] hover:bg-[#332D4D] text-[#F3EFFB] px-3 py-2 rounded-xl transition font-medium border border-[#443B60] hover:border-[#5A4E7E] min-h-[36px]"
             title="Export PGN"
           >
-            <Upload className="w-4 h-4 text-[#9AAAC9]" />
+            <Upload className="w-4 h-4 text-[#B8AFD1]" />
             <span className="hidden sm:inline">Export</span>
           </button>
           <button 
             onClick={() => setIsFlipped(!isFlipped)}
-            className="p-2 sm:p-2 min-h-[36px] min-w-[36px] flex items-center justify-center bg-[#192744] hover:bg-[#202F50] text-[#9AAAC9] hover:text-[#EDF2FF] rounded-xl border border-[#304263] transition shadow-xs"
+            className="p-2 min-h-[36px] min-w-[36px] flex items-center justify-center bg-[#292440] hover:bg-[#332D4D] text-[#B8AFD1] hover:text-[#F3EFFB] rounded-xl border border-[#443B60] hover:border-[#5A4E7E] transition"
             title="Flip Board"
           >
             <RotateCw className="w-4 h-4" />
@@ -1158,39 +1167,45 @@ export default function App() {
 
       {/* Error Banner */}
       {errorMessage && (
-        <div className="bg-red-950/40 border-b border-red-800/50 text-red-300 px-4 py-2 text-xs flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+        <div className="bg-[#d3503c]/15 border-b border-[#d3503c]/30 text-[#F3EFFB] px-4 py-2 text-xs flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-[#d3503c] shrink-0" />
           <span>{errorMessage}</span>
         </div>
       )}
 
       {/* Main Workspace Layout (Two primary areas: Board with Players Above/Below | Wider Two-Column Analysis Panel) */}
-      <div className="flex-1 min-h-0 flex flex-col xl:flex-row items-center justify-start xl:justify-center overflow-y-auto xl:overflow-hidden p-2 sm:p-2.5 xl:py-2.5 xl:px-4 gap-3 xl:gap-6 bg-[#0D1428] text-[#EDF2FF] max-w-[1800px] mx-auto w-full">
+      <main className="flex-1 min-h-0 flex flex-col xl:flex-row items-center justify-start xl:justify-center overflow-y-auto xl:overflow-hidden p-2 sm:p-2.5 xl:py-2.5 xl:px-4 gap-3 xl:gap-6 bg-[#171525] text-[#F3EFFB] max-w-[1800px] mx-auto w-full">
         {/* Dominant Chessboard & Player Info Column (Above & Below Board) */}
         <div className="flex flex-col items-center justify-center relative min-w-0 shrink-0 select-none py-1 w-full max-w-[min(calc(100vw-24px),600px)]">
           {/* Top Player Panel (Black when normal orientation; White when flipped) */}
           <div 
             data-testid="top-player-panel"
-            className="w-full max-w-[min(calc(100vw-24px),600px)] h-9 mb-1.5 px-3 sm:px-3.5 rounded-2xl border border-[#304263] bg-[#192744] flex items-center justify-between text-xs shadow-md shrink-0"
+            className="w-full max-w-[min(calc(100vw-24px),600px)] h-9 mb-1.5 px-3 sm:px-3.5 rounded-xl border border-[#443B60] bg-[#201D35] flex items-center justify-between text-xs shadow-xs shrink-0"
           >
-            <div className="flex items-center gap-2.5 min-w-0">
+            <div className="flex items-center gap-2 min-w-0 flex-1 mr-2">
               <span className={`w-3.5 h-3.5 rounded-full border shrink-0 ${
-                topPlayerColor === 'w' ? 'bg-[#EDF2FF] border-[#8EA6F0] shadow-xs' : 'bg-[#0D1428] border-[#304263]'
+                topPlayerColor === 'w' ? 'bg-[#F3EFFB] border-[#B8AFD1]/40 shadow-xs' : 'bg-[#12101D] border-[#B8AFD1]/30'
               }`} />
-              <div className="flex items-center gap-2 min-w-0">
-                <span className="font-bold text-xs sm:text-sm text-[#EDF2FF] truncate" title={topPlayerName}>
+              <div className="flex items-center gap-1.5 min-w-0 shrink">
+                <span className="font-semibold text-xs sm:text-sm text-[#F3EFFB] truncate" title={topPlayerName}>
                   {topPlayerName}
                 </span>
                 {topPlayerElo && (
-                  <span className="text-[11px] font-mono text-[#8EA6F0] font-semibold shrink-0">
+                  <span className="text-[11px] font-mono text-[#B8AFD1] font-medium shrink-0">
                     ({topPlayerElo})
                   </span>
                 )}
               </div>
+              <CapturedPiecesDisplay
+                captured={topPlayerColor === 'w' ? materialState.whiteCaptured : materialState.blackCaptured}
+                pieceColor={topPlayerColor === 'w' ? 'b' : 'w'}
+                advantage={topPlayerColor === 'w' ? materialState.whiteAdvantage : materialState.blackAdvantage}
+                testId="top-captured-pieces"
+              />
             </div>
             {isTopPlayerTurn ? (
-              <span className="flex items-center gap-1 text-[10px] font-semibold text-[#8EA6F0] bg-[#6685DB]/15 px-2 py-0.5 rounded-full border border-[#6685DB]/30 shrink-0">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#8EA6F0]"></span>
+              <span className="flex items-center gap-1.5 text-[10px] font-semibold text-[#B7A5E8] bg-[#B7A5E8]/10 px-2.5 py-0.5 rounded-full border border-[#B7A5E8]/25 shrink-0">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#B7A5E8]"></span>
                 To Move
               </span>
             ) : (
@@ -1212,19 +1227,19 @@ export default function App() {
             {/* Real Interactive Chessboard: Clean 1:1 Aspect Ratio without Redundant Padding */}
             <div 
               id="board-wrapper" 
-              className="h-full aspect-square relative flex items-center justify-center select-none"
+              className="h-full aspect-square relative flex items-center justify-center select-none rounded-2xl overflow-hidden shadow-[0_12px_36px_rgba(0,0,0,0.45)] border border-[#443B60] bg-[#201D35]"
             >
               {previewMoveState && (
-                <div className="absolute top-2 left-2 right-2 z-20 bg-[#192744]/95 border border-[#6685DB] text-[#EDF2FF] px-3 py-2 rounded-xl text-xs flex items-center justify-between shadow-xl backdrop-blur-sm">
+                <div className="absolute top-2 left-2 right-2 z-20 bg-[#201D35]/95 border border-[#B7A5E8]/30 text-[#F3EFFB] px-3 py-2 rounded-xl text-xs flex items-center justify-between shadow-lg backdrop-blur-sm">
                   <div className="flex items-center gap-2 min-w-0">
-                    <Eye className="w-3.5 h-3.5 text-[#8EA6F0] shrink-0" />
+                    <Eye className="w-3.5 h-3.5 text-[#B7A5E8] shrink-0" />
                     <span className="truncate text-[11px]">
                       Previewing best: <strong className="text-emerald-400 font-mono font-bold">{previewMoveState.bestMoveSan}</strong> (Played: {previewMoveState.playedMoveSan})
                     </span>
                   </div>
                   <button
                     onClick={handleExitPreview}
-                    className="px-2.5 py-1 bg-[#6685DB] hover:bg-[#5774C9] text-white rounded-lg text-[10px] font-semibold transition shrink-0 ml-2 shadow-xs"
+                    className="px-2.5 py-1 bg-[#B7A5E8] hover:bg-[#C4B5FD] text-[#171525] rounded-lg text-[10px] font-semibold transition shrink-0 ml-2 shadow-xs uppercase tracking-wide"
                   >
                     Return
                   </button>
@@ -1252,26 +1267,32 @@ export default function App() {
           {/* Bottom Player Panel (White when normal orientation; Black when flipped) */}
           <div 
             data-testid="bottom-player-panel"
-            className="w-full max-w-[min(calc(100vw-24px),600px)] h-9 mt-1.5 px-3 sm:px-3.5 rounded-2xl border border-[#304263] bg-[#192744] flex items-center justify-between text-xs shadow-md shrink-0"
+            className="w-full max-w-[min(calc(100vw-24px),600px)] h-9 mt-1.5 px-3 sm:px-3.5 rounded-xl border border-[#443B60] bg-[#201D35] flex items-center justify-between text-xs shadow-xs shrink-0"
           >
-            <div className="flex items-center gap-2.5 min-w-0">
+            <div className="flex items-center gap-2 min-w-0 flex-1 mr-2">
               <span className={`w-3.5 h-3.5 rounded-full border shrink-0 ${
-                bottomPlayerColor === 'w' ? 'bg-[#EDF2FF] border-[#8EA6F0] shadow-xs' : 'bg-[#0D1428] border-[#304263]'
+                bottomPlayerColor === 'w' ? 'bg-[#F3EFFB] border-[#B8AFD1]/40 shadow-xs' : 'bg-[#12101D] border-[#B8AFD1]/30'
               }`} />
-              <div className="flex items-center gap-2 min-w-0">
-                <span className="font-bold text-xs sm:text-sm text-[#EDF2FF] truncate" title={bottomPlayerName}>
+              <div className="flex items-center gap-1.5 min-w-0 shrink">
+                <span className="font-semibold text-xs sm:text-sm text-[#F3EFFB] truncate" title={bottomPlayerName}>
                   {bottomPlayerName}
                 </span>
                 {bottomPlayerElo && (
-                  <span className="text-[11px] font-mono text-[#8EA6F0] font-semibold shrink-0">
+                  <span className="text-[11px] font-mono text-[#B8AFD1] font-medium shrink-0">
                     ({bottomPlayerElo})
                   </span>
                 )}
               </div>
+              <CapturedPiecesDisplay
+                captured={bottomPlayerColor === 'w' ? materialState.whiteCaptured : materialState.blackCaptured}
+                pieceColor={bottomPlayerColor === 'w' ? 'b' : 'w'}
+                advantage={bottomPlayerColor === 'w' ? materialState.whiteAdvantage : materialState.blackAdvantage}
+                testId="bottom-captured-pieces"
+              />
             </div>
             {isBottomPlayerTurn ? (
-              <span className="flex items-center gap-1 text-[10px] font-semibold text-[#8EA6F0] bg-[#6685DB]/15 px-2 py-0.5 rounded-full border border-[#6685DB]/30 shrink-0">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#8EA6F0]"></span>
+              <span className="flex items-center gap-1.5 text-[10px] font-semibold text-[#B7A5E8] bg-[#B7A5E8]/10 px-2.5 py-0.5 rounded-full border border-[#B7A5E8]/25 shrink-0">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#B7A5E8]"></span>
                 To Move
               </span>
             ) : (
@@ -1281,46 +1302,46 @@ export default function App() {
         </div>
 
         {/* Right Side: Unified Two-Column Analysis & Library Panel */}
-        <div className="w-full xl:flex-1 xl:min-w-[580px] 2xl:min-w-[720px] max-w-[min(calc(100vw-24px),960px)] flex flex-col bg-[#192744] rounded-3xl border border-[#304263] shadow-[0_12px_40px_rgba(0,0,0,0.4)] overflow-hidden shrink-0 xl:shrink min-h-[500px] h-[580px] xl:h-full xl:max-h-[min(calc(100vh-5rem),684px)] min-h-0 my-1 xl:my-0">
+        <div className="w-full xl:flex-1 xl:min-w-[580px] 2xl:min-w-[720px] max-w-[min(calc(100vw-24px),960px)] flex flex-col bg-[#201D35] rounded-2xl border border-[#443B60] shadow-[0_12px_36px_rgba(0,0,0,0.35)] overflow-hidden shrink-0 xl:shrink min-h-[500px] h-[580px] xl:h-full xl:max-h-[min(calc(100vh-5rem),684px)] min-h-0 my-1 xl:my-0">
           {/* Panel Navigation Tabs */}
-          <div className="flex border-b border-[#304263] bg-[#131E36] text-xs overflow-x-auto no-scrollbar shrink-0">
+          <div className="flex border-b border-[#443B60] bg-[#171525] text-xs overflow-x-auto no-scrollbar shrink-0">
             <button
               onClick={() => setActiveTab('analysis')}
-              className={`flex-1 py-3 px-4 min-h-[44px] whitespace-nowrap flex items-center justify-center gap-1.5 font-semibold transition text-xs ${
+              className={`flex-1 py-3 px-4 min-h-[44px] whitespace-nowrap flex items-center justify-center gap-2 font-semibold transition text-xs tracking-wide ${
                 activeTab === 'analysis' 
-                  ? 'text-[#EDF2FF] border-b-2 border-[#6685DB] font-bold bg-[#192744]' 
-                  : 'text-[#9AAAC9] hover:text-[#EDF2FF] hover:bg-[#202F50]/60'
+                  ? 'text-[#B7A5E8] border-b-2 border-[#B7A5E8] bg-[#B7A5E8]/10' 
+                  : 'text-[#B8AFD1] hover:text-[#F3EFFB] hover:bg-white/[0.02]'
               }`}
             >
-              <Cpu className="w-3.5 h-3.5 text-[#8EA6F0]" />
+              <Cpu className="w-3.5 h-3.5" />
               <span>Analysis</span>
             </button>
             <button
               onClick={() => setActiveTab('library')}
-              className={`flex-1 py-3 px-4 min-h-[44px] whitespace-nowrap flex items-center justify-center gap-1.5 font-semibold transition text-xs ${
+              className={`flex-1 py-3 px-4 min-h-[44px] whitespace-nowrap flex items-center justify-center gap-2 font-semibold transition text-xs tracking-wide ${
                 activeTab === 'library' 
-                  ? 'text-[#EDF2FF] border-b-2 border-[#6685DB] font-bold bg-[#192744]' 
-                  : 'text-[#9AAAC9] hover:text-[#EDF2FF] hover:bg-[#202F50]/60'
+                  ? 'text-[#B7A5E8] border-b-2 border-[#B7A5E8] bg-[#B7A5E8]/10' 
+                  : 'text-[#B8AFD1] hover:text-[#F3EFFB] hover:bg-white/[0.02]'
               }`}
             >
-              <FolderOpen className="w-3.5 h-3.5 text-[#8EA6F0]" />
+              <FolderOpen className="w-3.5 h-3.5" />
               <span>Library</span>
             </button>
             <button
               onClick={() => setActiveTab('settings')}
               className={`py-3 px-4 min-h-[44px] flex items-center justify-center transition ${
                 activeTab === 'settings' 
-                  ? 'text-[#EDF2FF] border-b-2 border-[#6685DB] font-bold bg-[#192744]' 
-                  : 'text-[#9AAAC9] hover:text-[#EDF2FF] hover:bg-[#202F50]/60'
+                  ? 'text-[#B7A5E8] border-b-2 border-[#B7A5E8] bg-[#B7A5E8]/10' 
+                  : 'text-[#B8AFD1] hover:text-[#F3EFFB] hover:bg-white/[0.02]'
               }`}
               title="Settings"
             >
-              <Sliders className="w-3.5 h-3.5 text-[#8EA6F0]" />
+              <Sliders className="w-3.5 h-3.5" />
             </button>
           </div>
 
           {/* Panel Body Content */}
-          <div className="flex-1 overflow-hidden flex flex-col min-h-0 bg-[#131E36]">
+          <div className="flex-1 overflow-hidden flex flex-col min-h-0 bg-[#201D35]">
             {activeTab === 'analysis' && (
               <UnifiedAnalysisWorkspace
                 tree={tree}
@@ -1385,21 +1406,21 @@ export default function App() {
             )}
 
             {activeTab === 'settings' && (
-              <div className="space-y-4 text-xs text-[#EDF2FF] overflow-y-auto h-full p-3 sm:p-4">
-                <div className="bg-[#192744] p-4 rounded-2xl border border-[#304263] space-y-4 shadow-sm">
-                  <h3 className="font-bold text-[#EDF2FF] flex items-center gap-2">
-                    <Sliders className="w-3.5 h-3.5 text-[#8EA6F0]" />
-                    Engine & Analysis Configuration
+              <div className="space-y-4 text-xs text-[#F3EFFB] overflow-y-auto h-full p-3 sm:p-4">
+                <div className="bg-[#292440] p-4 rounded-xl border border-[#443B60] space-y-4 shadow-xs">
+                  <h3 className="font-semibold text-[#F3EFFB] flex items-center gap-2">
+                    <Sliders className="w-3.5 h-3.5 text-[#B7A5E8]" />
+                    Engine &amp; Analysis Configuration
                   </h3>
 
                   {/* Best Move Arrows */}
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-[#9AAAC9] text-[11px] font-medium">Best-Move Arrows:</span>
+                      <span className="text-[#B8AFD1] text-[11px] font-medium">Best-Move Arrows:</span>
                       <button
                         onClick={() => setShowArrows(!showArrows)}
                         className={`px-3 py-1 min-h-[30px] rounded-xl text-xs font-semibold transition ${
-                          showArrows ? 'bg-[#6685DB] text-white shadow-xs' : 'bg-[#202F50] text-[#9AAAC9] border border-[#304263] hover:text-[#EDF2FF]'
+                          showArrows ? 'bg-[#B7A5E8] text-[#171525] shadow-xs' : 'bg-white/[0.04] text-[#B8AFD1] border border-[#443B60] hover:text-[#F3EFFB]'
                         }`}
                       >
                         {showArrows ? 'Enabled' : 'Disabled'}
@@ -1408,7 +1429,7 @@ export default function App() {
 
                     {showArrows && (
                       <div className="space-y-1">
-                        <span className="text-[#9AAAC9] text-[10px]">Candidate Arrows on Board:</span>
+                        <span className="text-[#B8AFD1] text-[10px]">Candidate Arrows on Board:</span>
                         <div className="grid grid-cols-3 gap-1.5">
                           {[1, 2, 3].map((num) => (
                             <button
@@ -1416,8 +1437,8 @@ export default function App() {
                               onClick={() => setMaxArrows(num)}
                               className={`py-1.5 min-h-[30px] rounded-xl font-mono text-xs border transition ${
                                 maxArrows === num 
-                                  ? 'bg-[#6685DB] text-white font-bold border-[#6685DB] shadow-xs' 
-                                  : 'bg-[#202F50] text-[#EDF2FF] border-[#304263] hover:bg-[#202F50]/80'
+                                  ? 'bg-[#B7A5E8] text-[#171525] font-bold border-[#B7A5E8] shadow-xs' 
+                                  : 'bg-[#201D35] text-[#F3EFFB] border-[#443B60] hover:bg-[#332D4D]'
                               }`}
                             >
                               {num} Arrow{num > 1 ? 's' : ''}
@@ -1428,12 +1449,12 @@ export default function App() {
                     )}
 
                     {/* On-Board Move Classification Markers */}
-                    <div className="flex items-center justify-between pt-2 border-t border-[#304263]">
-                      <span className="text-[#9AAAC9] text-[11px] font-medium">On-Board Classification Icons:</span>
+                    <div className="flex items-center justify-between pt-2 border-t border-[#443B60]">
+                      <span className="text-[#B8AFD1] text-[11px] font-medium">On-Board Classification Icons:</span>
                       <button
                         onClick={() => setShowClassificationMarkers(!showClassificationMarkers)}
                         className={`px-3 py-1 min-h-[30px] rounded-xl text-xs font-semibold transition ${
-                          showClassificationMarkers ? 'bg-[#6685DB] text-white shadow-xs' : 'bg-[#202F50] text-[#9AAAC9] border border-[#304263] hover:text-[#EDF2FF]'
+                          showClassificationMarkers ? 'bg-[#B7A5E8] text-[#171525] shadow-xs' : 'bg-white/[0.04] text-[#B8AFD1] border border-[#443B60] hover:text-[#F3EFFB]'
                         }`}
                       >
                         {showClassificationMarkers ? 'Enabled' : 'Disabled'}
@@ -1444,8 +1465,8 @@ export default function App() {
                   {/* Target Depth */}
                   <div className="space-y-1">
                     <div className="flex justify-between text-[11px]">
-                      <span className="text-[#9AAAC9] font-medium">Target Search Depth:</span>
-                      <span className="font-mono text-[#8EA6F0] font-bold">{status.maxDepth} ply</span>
+                      <span className="text-[#B8AFD1] font-medium">Target Search Depth:</span>
+                      <span className="font-mono text-[#B7A5E8] font-bold">{status.maxDepth} ply</span>
                     </div>
                     <input 
                       type="range" 
@@ -1453,9 +1474,9 @@ export default function App() {
                       max="25" 
                       value={status.maxDepth}
                       onChange={(e) => updateOptions({ depth: parseInt(e.target.value, 10) })}
-                      className="w-full accent-[#6685DB] cursor-pointer"
+                      className="w-full accent-[#B7A5E8] cursor-pointer"
                     />
-                    <div className="flex justify-between text-[10px] text-[#9AAAC9]">
+                    <div className="flex justify-between text-[10px] text-[#8C81A8]">
                       <span>10 (Fast)</span>
                       <span>16 (Balanced)</span>
                       <span>25 (Deep)</span>
@@ -1464,7 +1485,7 @@ export default function App() {
 
                   {/* MultiPV Variations */}
                   <div className="space-y-1.5">
-                    <span className="text-[#9AAAC9] text-[11px] font-medium">MultiPV (Candidate Lines):</span>
+                    <span className="text-[#B8AFD1] text-[11px] font-medium">MultiPV (Candidate Lines):</span>
                     <div className="grid grid-cols-5 gap-1.5">
                       {[1, 2, 3, 4, 5].map((val) => (
                         <button
@@ -1472,8 +1493,8 @@ export default function App() {
                           onClick={() => updateOptions({ multiPv: val })}
                           className={`py-1.5 min-h-[30px] rounded-xl font-mono text-xs border transition ${
                             status.multiPv === val 
-                              ? 'bg-[#6685DB] text-white font-bold border-[#6685DB] shadow-xs' 
-                              : 'bg-[#202F50] text-[#EDF2FF] border-[#304263] hover:bg-[#202F50]/80'
+                              ? 'bg-[#B7A5E8] text-[#171525] font-bold border-[#B7A5E8] shadow-xs' 
+                              : 'bg-[#201D35] text-[#F3EFFB] border-[#443B60] hover:bg-[#332D4D]'
                           }`}
                         >
                           {val}
@@ -1484,7 +1505,7 @@ export default function App() {
 
                   {/* Hash Size */}
                   <div className="space-y-1.5">
-                    <span className="text-[#9AAAC9] text-[11px] font-medium">Hash Memory Size:</span>
+                    <span className="text-[#B8AFD1] text-[11px] font-medium">Hash Memory Size:</span>
                     <div className="grid grid-cols-3 gap-2">
                       {[16, 32, 64].map((size) => (
                         <button
@@ -1492,8 +1513,8 @@ export default function App() {
                           onClick={() => updateOptions({ hashSizeMb: size })}
                           className={`py-1.5 min-h-[30px] rounded-xl font-mono text-xs border transition ${
                             status.hashSizeMb === size 
-                              ? 'bg-[#6685DB] text-white font-bold border-[#6685DB] shadow-xs' 
-                              : 'bg-[#202F50] text-[#EDF2FF] border-[#304263] hover:bg-[#202F50]/80'
+                              ? 'bg-[#B7A5E8] text-[#171525] font-bold border-[#B7A5E8] shadow-xs' 
+                              : 'bg-[#201D35] text-[#F3EFFB] border-[#443B60] hover:bg-[#332D4D]'
                           }`}
                         >
                           {size} MB
@@ -1504,49 +1525,49 @@ export default function App() {
                 </div>
 
                 {/* Keyboard Shortcuts Reference */}
-                <div className="bg-[#192744] p-4 rounded-2xl border border-[#304263] space-y-2.5 shadow-sm">
-                  <h3 className="font-bold text-[#EDF2FF] flex items-center gap-2">
-                    <Keyboard className="w-3.5 h-3.5 text-[#8EA6F0]" />
+                <div className="bg-[#292440] p-4 rounded-xl border border-[#443B60] space-y-2.5 shadow-xs">
+                  <h3 className="font-semibold text-[#F3EFFB] flex items-center gap-2">
+                    <Keyboard className="w-3.5 h-3.5 text-[#B7A5E8]" />
                     Keyboard Shortcuts
                   </h3>
                   <div className="grid grid-cols-2 gap-2 text-[11px]">
-                    <div className="bg-[#131E36] p-2 rounded-xl border border-[#304263] flex items-center justify-between">
-                      <span className="text-[#9AAAC9]">Previous Move</span>
-                      <kbd className="px-2 py-0.5 bg-[#202F50] rounded-lg border border-[#304263] text-[#EDF2FF] font-mono text-[10px] shadow-xs">←</kbd>
+                    <div className="bg-[#201D35] p-2 rounded-xl border border-[#443B60] flex items-center justify-between">
+                      <span className="text-[#B8AFD1]">Previous Move</span>
+                      <kbd className="px-2 py-0.5 bg-white/[0.05] rounded border border-[#443B60] text-[#F3EFFB] font-mono text-[10px]">←</kbd>
                     </div>
-                    <div className="bg-[#131E36] p-2 rounded-xl border border-[#304263] flex items-center justify-between">
-                      <span className="text-[#9AAAC9]">Next Move</span>
-                      <kbd className="px-2 py-0.5 bg-[#202F50] rounded-lg border border-[#304263] text-[#EDF2FF] font-mono text-[10px] shadow-xs">→</kbd>
+                    <div className="bg-[#201D35] p-2 rounded-xl border border-[#443B60] flex items-center justify-between">
+                      <span className="text-[#B8AFD1]">Next Move</span>
+                      <kbd className="px-2 py-0.5 bg-white/[0.05] rounded border border-[#443B60] text-[#F3EFFB] font-mono text-[10px]">→</kbd>
                     </div>
-                    <div className="bg-[#131E36] p-2 rounded-xl border border-[#304263] flex items-center justify-between">
-                      <span className="text-[#9AAAC9]">First Move</span>
-                      <kbd className="px-2 py-0.5 bg-[#202F50] rounded-lg border border-[#304263] text-[#EDF2FF] font-mono text-[10px] shadow-xs">↑</kbd>
+                    <div className="bg-[#201D35] p-2 rounded-xl border border-[#443B60] flex items-center justify-between">
+                      <span className="text-[#B8AFD1]">First Move</span>
+                      <kbd className="px-2 py-0.5 bg-white/[0.05] rounded border border-[#443B60] text-[#F3EFFB] font-mono text-[10px]">↑</kbd>
                     </div>
-                    <div className="bg-[#131E36] p-2 rounded-xl border border-[#304263] flex items-center justify-between">
-                      <span className="text-[#9AAAC9]">Latest Move</span>
-                      <kbd className="px-2 py-0.5 bg-[#202F50] rounded-lg border border-[#304263] text-[#EDF2FF] font-mono text-[10px] shadow-xs">↓</kbd>
+                    <div className="bg-[#201D35] p-2 rounded-xl border border-[#443B60] flex items-center justify-between">
+                      <span className="text-[#B8AFD1]">Latest Move</span>
+                      <kbd className="px-2 py-0.5 bg-white/[0.05] rounded border border-[#443B60] text-[#F3EFFB] font-mono text-[10px]">↓</kbd>
                     </div>
-                    <div className="bg-[#131E36] p-2 rounded-xl border border-[#304263] flex items-center justify-between col-span-2">
-                      <span className="text-[#9AAAC9]">Flip Board Orientation</span>
-                      <kbd className="px-2 py-0.5 bg-[#202F50] rounded-lg border border-[#304263] text-[#EDF2FF] font-mono text-[10px] shadow-xs">F</kbd>
+                    <div className="bg-[#201D35] p-2 rounded-xl border border-[#443B60] flex items-center justify-between col-span-2">
+                      <span className="text-[#B8AFD1]">Flip Board Orientation</span>
+                      <kbd className="px-2 py-0.5 bg-white/[0.05] rounded border border-[#443B60] text-[#F3EFFB] font-mono text-[10px]">F</kbd>
                     </div>
                   </div>
                 </div>
 
                 {/* Open-Source Attribution & Privacy */}
-                <div className="bg-[#192744] p-4 rounded-2xl border border-[#304263] space-y-2.5 shadow-sm">
-                  <h3 className="font-bold text-[#EDF2FF] flex items-center gap-2">
-                    <ShieldCheck className="w-3.5 h-3.5 text-[#8EA6F0]" />
-                    Engine Attribution & Privacy
+                <div className="bg-[#292440] p-4 rounded-xl border border-[#443B60] space-y-2.5 shadow-xs">
+                  <h3 className="font-semibold text-[#F3EFFB] flex items-center gap-2">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#B7A5E8]" />
+                    Engine Attribution &amp; Privacy
                   </h3>
-                  <div className="text-[11px] text-[#9AAAC9] space-y-1.5 leading-relaxed">
+                  <div className="text-[11px] text-[#B8AFD1] space-y-1.5 leading-relaxed">
                     <p>
-                      <strong className="text-[#EDF2FF]">Engine:</strong> Official Stockfish 19 WASM (single-threaded build, licensed under GNU GPL v3.0). Powered in-browser via Web Workers.
+                      <strong className="text-[#F3EFFB]">Engine:</strong> Official Stockfish 19 WASM (single-threaded build, licensed under GNU GPL v3.0). Powered in-browser via Web Workers.
                     </p>
                     <p>
-                      <strong className="text-[#EDF2FF]">100% Client-Side Privacy:</strong> All game storage, variations, and Stockfish evaluations run completely within your browser using local IndexedDB. No games or telemetry are sent to external servers.
+                      <strong className="text-[#F3EFFB]">100% Client-Side Privacy:</strong> All game storage, variations, and Stockfish evaluations run completely within your browser using local IndexedDB. No games or telemetry are sent to external servers.
                     </p>
-                    <p className="text-[10px] text-[#9AAAC9] pt-2 border-t border-[#304263]">
+                    <p className="text-[10px] text-[#8C81A8] pt-2 border-t border-[#443B60]">
                       <strong>Disclaimer:</strong> RazborChess is an independent open-source educational project and is not affiliated with, sponsored by, or endorsed by Chess.com or Lichess. Move classifications and estimated ratings are transparent heuristics.
                     </p>
                   </div>
@@ -1557,12 +1578,12 @@ export default function App() {
 
           {/* Bottom Move Navigation Controls (for secondary tabs; Analysis tab has its own integrated controls) */}
           {activeTab !== 'analysis' && (
-            <div className="h-14 border-t border-[#304263] bg-[#192744] px-3 sm:px-4 flex items-center justify-between shrink-0">
+            <div className="h-14 border-t border-[#443B60] bg-[#171525] px-3 sm:px-4 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-1 sm:gap-1.5">
                 <button 
                   onClick={handleFirstMove}
                   disabled={currentNode.id === 'root'}
-                  className="p-2 sm:p-2 min-h-[38px] min-w-[38px] flex items-center justify-center text-[#9AAAC9] hover:text-[#EDF2FF] hover:bg-[#202F50] disabled:opacity-25 disabled:hover:bg-transparent rounded-xl transition"
+                  className="p-2 min-h-[38px] min-w-[38px] flex items-center justify-center text-[#B8AFD1] hover:text-[#F3EFFB] hover:bg-white/[0.06] disabled:opacity-25 disabled:hover:bg-transparent rounded-xl transition"
                   title="First Move (Up Arrow)"
                 >
                   <ChevronsLeft className="w-4 h-4" />
@@ -1570,7 +1591,7 @@ export default function App() {
                 <button 
                   onClick={handlePrevMove}
                   disabled={currentNode.id === 'root'}
-                  className="p-2 sm:p-2 min-h-[38px] min-w-[38px] flex items-center justify-center text-[#9AAAC9] hover:text-[#EDF2FF] hover:bg-[#202F50] disabled:opacity-25 disabled:hover:bg-transparent rounded-xl transition"
+                  className="p-2 min-h-[38px] min-w-[38px] flex items-center justify-center text-[#B8AFD1] hover:text-[#F3EFFB] hover:bg-white/[0.06] disabled:opacity-25 disabled:hover:bg-transparent rounded-xl transition"
                   title="Previous Move (Left Arrow)"
                 >
                   <ChevronLeft className="w-4 h-4" />
@@ -1578,7 +1599,7 @@ export default function App() {
                 <button 
                   onClick={handleNextMove}
                   disabled={currentNode.children.length === 0}
-                  className="p-2 sm:p-2 min-h-[38px] min-w-[38px] flex items-center justify-center text-[#9AAAC9] hover:text-[#EDF2FF] hover:bg-[#202F50] disabled:opacity-25 disabled:hover:bg-transparent rounded-xl transition"
+                  className="p-2 min-h-[38px] min-w-[38px] flex items-center justify-center text-[#B8AFD1] hover:text-[#F3EFFB] hover:bg-white/[0.06] disabled:opacity-25 disabled:hover:bg-transparent rounded-xl transition"
                   title="Next Move (Right Arrow)"
                 >
                   <ChevronRight className="w-4 h-4" />
@@ -1586,7 +1607,7 @@ export default function App() {
                 <button 
                   onClick={handleLastMove}
                   disabled={currentNode.children.length === 0}
-                  className="p-2 sm:p-2 min-h-[38px] min-w-[38px] flex items-center justify-center text-[#9AAAC9] hover:text-[#EDF2FF] hover:bg-[#202F50] disabled:opacity-25 disabled:hover:bg-transparent rounded-xl transition"
+                  className="p-2 min-h-[38px] min-w-[38px] flex items-center justify-center text-[#B8AFD1] hover:text-[#F3EFFB] hover:bg-white/[0.06] disabled:opacity-25 disabled:hover:bg-transparent rounded-xl transition"
                   title="Last Move (Down Arrow)"
                 >
                   <ChevronsRight className="w-4 h-4" />
@@ -1597,7 +1618,7 @@ export default function App() {
                 {!isMainline && (
                   <button
                     onClick={handleReturnToMainline}
-                    className="px-3 py-1.5 min-h-[34px] text-[11px] bg-[#202F50] text-[#8EA6F0] border border-[#304263] rounded-xl hover:bg-[#202F50]/80 flex items-center gap-1.5 transition font-semibold shadow-xs"
+                    className="px-3 py-1.5 min-h-[34px] text-[11px] bg-[#B7A5E8]/20 text-[#B7A5E8] border border-[#B7A5E8]/30 rounded-xl hover:bg-[#B7A5E8]/30 flex items-center gap-1.5 transition font-semibold"
                     title="Return to Mainline"
                   >
                     <CornerUpLeft className="w-3 h-3" />
@@ -1606,7 +1627,7 @@ export default function App() {
                 )}
                 <button 
                   onClick={handleResetGame}
-                  className="p-2 min-h-[36px] text-[#9AAAC9] hover:text-[#F87171] hover:bg-red-950/30 rounded-xl transition text-xs flex items-center gap-1"
+                  className="p-2 min-h-[36px] text-[#B8AFD1] hover:text-[#d3503c] hover:bg-[#d3503c]/10 rounded-xl transition text-xs flex items-center gap-1"
                   title="Reset to Starting Position"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
@@ -1616,7 +1637,7 @@ export default function App() {
             </div>
           )}
         </div>
-      </div>
+      </main>
 
       {/* Import / Export Modal */}
       <ImportExportModal

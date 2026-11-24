@@ -90,7 +90,7 @@ export const BoardClassificationMarker: React.FC<BoardClassificationMarkerProps>
         };
       case 'book':
         return {
-          bgColor: '#a855f7',
+          bgColor: '#967858',
           borderColor: '#ffffff',
           textColor: '#ffffff',
           symbol: '📖',

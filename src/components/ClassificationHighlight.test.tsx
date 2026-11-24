@@ -127,10 +127,10 @@ describe('Classification Square Highlighting & Visual Styling', () => {
     expect(squareStyles['f3'].backgroundColor).not.toBe('rgba(102, 133, 219, 0.45)');
   });
 
-  it('uses refined feminine blue palette for board squares', () => {
+  it('uses elegant lavender palette for board squares', () => {
     render(<ChessBoardView {...dummyProps} />);
 
-    expect(capturedProps.customDarkSquareStyle).toEqual({ backgroundColor: '#4E6F9F' });
-    expect(capturedProps.customLightSquareStyle).toEqual({ backgroundColor: '#DFE7F5' });
+    expect(capturedProps.customDarkSquareStyle).toEqual({ backgroundColor: '#8B79B5' });
+    expect(capturedProps.customLightSquareStyle).toEqual({ backgroundColor: '#E8E1F2' });
   });
 });

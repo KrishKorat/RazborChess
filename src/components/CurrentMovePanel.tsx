@@ -21,11 +21,11 @@ export const CurrentMovePanel: React.FC<CurrentMovePanelProps> = ({
 
   if (isRoot) {
     return (
-      <div className="w-full bg-[#1C2949] border border-[#344567] rounded-md px-3 py-2 flex items-center justify-between text-xs text-[#F3F5FF] shadow-sm">
-        <span className="font-semibold text-[#F3F5FF] flex items-center gap-1.5">
+      <div className="w-full bg-[#292440] border border-[#443B60] rounded-xl px-3 py-2 flex items-center justify-between text-xs text-[#F3EFFB] shadow-xs">
+        <span className="font-semibold text-[#F3EFFB] flex items-center gap-1.5 tracking-wide">
           <span>Starting Position</span>
         </span>
-        <span className="text-[11px] text-[#A7B3D0] font-mono">White to move</span>
+        <span className="text-[11px] text-[#B8AFD1] font-mono">White to move</span>
       </div>
     );
   }
@@ -35,25 +35,25 @@ export const CurrentMovePanel: React.FC<CurrentMovePanelProps> = ({
   const moveLabel = `${currentNode.moveNumber}${isWhite ? '.' : '...'} ${currentNode.san}`;
 
   return (
-    <div className="w-full bg-[#1C2949] border border-[#344567] rounded-md p-2 sm:p-2.5 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-sm text-[#F3F5FF]">
+    <div className="w-full bg-[#292440] border border-[#443B60] rounded-xl p-2 sm:p-2.5 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-xs text-[#F3EFFB]">
       {/* Left Side: Played Move & Classification */}
       <div className="flex items-center gap-2 flex-wrap">
         <div className="flex items-center gap-1.5">
-          <span className="text-[#A7B3D0] font-mono text-[11px]">Move:</span>
-          <span className="font-bold text-[#F3F5FF] font-mono text-sm">{moveLabel}</span>
-          <span className="text-[#A7B3D0] text-[10px]">({playerLabel})</span>
+          <span className="text-[#B8AFD1] font-mono text-[11px]">Move:</span>
+          <span className="font-bold text-[#F3EFFB] font-mono text-sm">{moveLabel}</span>
+          <span className="text-[#B8AFD1] text-[10px]">({playerLabel})</span>
         </div>
 
         {style && review ? (
           <div 
-            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-mono font-semibold border ${style.badgeBg} ${style.badgeText} ${style.badgeBorder}`}
+            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-mono font-bold border ${style.badgeBg} ${style.badgeText} ${style.badgeBorder}`}
             title={style.description}
           >
             <span className="font-bold text-sm leading-none">{style.symbol}</span>
             <span>{style.label}</span>
           </div>
         ) : (
-          <span className="text-[10px] text-[#A7B3D0] italic bg-[#151F3B] px-2 py-0.5 rounded border border-[#344567]">
+          <span className="text-[10px] text-[#B8AFD1] italic bg-[#201D35] px-2 py-0.5 rounded-md border border-[#443B60]">
             Unreviewed
           </span>
         )}
@@ -63,25 +63,25 @@ export const CurrentMovePanel: React.FC<CurrentMovePanelProps> = ({
       {review ? (
         <div className="flex items-center gap-3 text-[11px] font-mono flex-wrap">
           {review.bestMoveSan && review.classification !== 'best' && review.classification !== 'book' && review.classification !== 'brilliant' && (
-            <div className="flex items-center gap-1 text-[#F3F5FF] bg-[#151F3B] px-2 py-0.5 rounded border border-[#344567]">
-              <span className="text-[#A7B3D0] text-[10px]">Best:</span>
-              <span className="text-[#7895E8] font-bold">{review.bestMoveSan}</span>
+            <div className="flex items-center gap-1 text-[#F3EFFB] bg-[#201D35] px-2 py-0.5 rounded-lg border border-[#443B60]">
+              <span className="text-[#B8AFD1] text-[10px]">Best:</span>
+              <span className="text-[#81b64c] font-bold">{review.bestMoveSan}</span>
             </div>
           )}
 
-          <div className="flex items-center gap-2 text-[#A7B3D0]">
+          <div className="flex items-center gap-2 text-[#B8AFD1]">
             {review.centipawnLoss > 0 && (
-              <span className="text-[#FCA5A5] font-semibold">
+              <span className="text-[#d3503c] font-bold">
                 -{review.centipawnLoss} cp
               </span>
             )}
-            <span className="text-[#F3F5FF]">
-              Win: <span className="font-bold text-[#A9B8F2]">{review.winRateAfter}%</span>
+            <span className="text-[#F3EFFB]">
+              Win: <span className="font-bold text-[#B7A5E8]">{review.winRateAfter}%</span>
             </span>
           </div>
         </div>
       ) : (
-        <div className="text-[10px] text-[#A7B3D0] font-sans">
+        <div className="text-[10px] text-[#B8AFD1] font-sans">
           Run Game Review to analyze this move
         </div>
       )}

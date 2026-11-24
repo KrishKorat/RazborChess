@@ -131,47 +131,47 @@ export const ImportExportModal: React.FC<ImportExportModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B1020]/75 backdrop-blur-sm p-4">
-      <div className="bg-[#192744] border border-[#304263] rounded-3xl shadow-2xl max-w-lg w-full flex flex-col overflow-hidden max-h-[85vh] text-[#EDF2FF]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+      <div className="bg-[#292440] border border-[#443B60] rounded-2xl shadow-2xl max-w-lg w-full flex flex-col overflow-hidden max-h-[85vh] text-[#F3EFFB]">
         {/* Header Tabs */}
-        <div className="flex items-center justify-between border-b border-[#304263] bg-[#131E36] px-4">
+        <div className="flex items-center justify-between border-b border-[#443B60] bg-[#201D35] px-4">
           <div className="flex">
             <button
               onClick={() => { setActiveTab('import'); setErrorMessage(null); }}
-              className={`py-3 px-4 text-xs font-semibold flex items-center gap-1.5 transition ${
+              className={`py-3 px-4 text-xs font-semibold tracking-wide flex items-center gap-1.5 transition ${
                 activeTab === 'import'
-                  ? 'text-[#EDF2FF] border-b-2 border-[#6685DB] bg-[#192744] font-bold'
-                  : 'text-[#9AAAC9] hover:text-[#EDF2FF]'
+                  ? 'text-[#B7A5E8] border-b-2 border-[#B7A5E8] bg-[#B7A5E8]/15'
+                  : 'text-[#B8AFD1] hover:text-[#F3EFFB]'
               }`}
             >
-              <Download className="w-3.5 h-3.5 text-[#8EA6F0]" />
+              <Download className="w-3.5 h-3.5 text-[#B7A5E8]" />
               <span>Import PGN / FEN</span>
             </button>
             <button
               onClick={() => { setActiveTab('export'); setErrorMessage(null); }}
-              className={`py-3 px-4 text-xs font-semibold flex items-center gap-1.5 transition ${
+              className={`py-3 px-4 text-xs font-semibold tracking-wide flex items-center gap-1.5 transition ${
                 activeTab === 'export'
-                  ? 'text-[#EDF2FF] border-b-2 border-[#6685DB] bg-[#192744] font-bold'
-                  : 'text-[#9AAAC9] hover:text-[#EDF2FF]'
+                  ? 'text-[#B7A5E8] border-b-2 border-[#B7A5E8] bg-[#B7A5E8]/15'
+                  : 'text-[#B8AFD1] hover:text-[#F3EFFB]'
               }`}
             >
-              <Upload className="w-3.5 h-3.5 text-[#8EA6F0]" />
+              <Upload className="w-3.5 h-3.5 text-[#B7A5E8]" />
               <span>Export PGN</span>
             </button>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-[#9AAAC9] hover:text-[#EDF2FF] rounded-full hover:bg-[#202F50] transition"
+            className="p-1.5 text-[#B8AFD1] hover:text-[#F3EFFB] rounded-lg hover:bg-white/[0.06] transition"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="p-4 flex-1 overflow-y-auto space-y-4 text-xs bg-[#192744]">
+        <div className="p-4 flex-1 overflow-y-auto space-y-4 text-xs bg-[#292440]">
           {errorMessage && (
-            <div className="bg-red-950/40 border border-red-800/50 text-red-300 p-2.5 rounded-xl flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+            <div className="bg-[#d3503c]/20 border border-[#d3503c]/40 text-[#F3EFFB] p-2.5 rounded-xl flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-[#d3503c] shrink-0" />
               <span>{errorMessage}</span>
             </div>
           )}
@@ -179,7 +179,7 @@ export const ImportExportModal: React.FC<ImportExportModalProps> = ({
           {activeTab === 'import' ? (
             <div className="space-y-3">
               <div>
-                <label className="block text-[#EDF2FF] font-semibold mb-1">
+                <label className="block text-[#F3EFFB] font-semibold tracking-wide mb-1">
                   Paste PGN Game or FEN Position:
                 </label>
                 <textarea
@@ -187,14 +187,14 @@ export const ImportExportModal: React.FC<ImportExportModalProps> = ({
                   onChange={(e) => setInputText(e.target.value)}
                   placeholder="Paste PGN (e.g. 1. e4 e5 2. Nf3...) or FEN string..."
                   rows={6}
-                  className="w-full bg-[#131E36] border border-[#304263] rounded-2xl p-3 text-[#EDF2FF] font-mono text-[11px] placeholder-[#607294] focus:outline-none focus:border-[#6685DB]"
+                  className="w-full bg-[#201D35] border border-[#443B60] rounded-xl p-3 text-[#F3EFFB] font-mono text-[11px] placeholder-[#8C81A8] focus:outline-none focus:border-[#B7A5E8]"
                 />
               </div>
 
               {/* File upload */}
               <div className="flex items-center justify-between">
-                <label className="flex items-center gap-2 cursor-pointer bg-[#202F50] hover:bg-[#202F50]/80 border border-[#304263] px-3 py-1.5 rounded-xl transition text-[#EDF2FF] text-xs font-medium">
-                  <FileText className="w-3.5 h-3.5 text-[#8EA6F0]" />
+                <label className="flex items-center gap-2 cursor-pointer bg-[#201D35] hover:bg-[#332D4D] border border-[#443B60] px-3 py-1.5 rounded-xl transition text-[#F3EFFB] text-xs font-medium tracking-wide">
+                  <FileText className="w-3.5 h-3.5 text-[#B7A5E8]" />
                   <span>Choose .pgn file</span>
                   <input
                     type="file"
@@ -203,12 +203,12 @@ export const ImportExportModal: React.FC<ImportExportModalProps> = ({
                     className="hidden"
                   />
                 </label>
-                <span className="text-[10px] text-[#9AAAC9]">Max size: 2MB</span>
+                <span className="text-[10px] text-[#B8AFD1]">Max size: 2MB</span>
               </div>
 
               {/* Quick load sample games */}
-              <div className="pt-2 border-t border-[#304263]">
-                <span className="block text-[#9AAAC9] text-[11px] font-medium mb-1.5">
+              <div className="pt-2 border-t border-[#443B60]">
+                <span className="block text-[#B8AFD1] text-[11px] font-semibold tracking-wide mb-1.5">
                   Load Famous Historical Games:
                 </span>
                 <div className="flex flex-col gap-1.5">
@@ -216,9 +216,9 @@ export const ImportExportModal: React.FC<ImportExportModalProps> = ({
                     <button
                       key={idx}
                       onClick={() => setInputText(game.pgn)}
-                      className="text-left py-2 px-3 rounded-xl bg-[#131E36] hover:bg-[#202F50] border border-[#304263] text-[#9AAAC9] hover:text-[#EDF2FF] transition text-[11px] truncate"
+                      className="text-left py-2 px-3 rounded-xl bg-[#201D35] hover:bg-[#332D4D] border border-[#443B60] text-[#B8AFD1] hover:text-[#F3EFFB] transition text-[11px] truncate"
                     >
-                      <span className="text-[#8EA6F0]">★</span> {game.name}
+                      <span className="text-[#B7A5E8]">★</span> {game.name}
                     </button>
                   ))}
                 </div>
@@ -227,28 +227,28 @@ export const ImportExportModal: React.FC<ImportExportModalProps> = ({
           ) : (
             <div className="space-y-3">
               <div>
-                <label className="block text-[#EDF2FF] font-semibold mb-1">
+                <label className="block text-[#F3EFFB] font-semibold tracking-wide mb-1">
                   Current Game PGN:
                 </label>
                 <textarea
                   readOnly
                   value={exportPgnText}
                   rows={8}
-                  className="w-full bg-[#131E36] border border-[#304263] rounded-2xl p-3 text-[#EDF2FF] font-mono text-[11px] select-all focus:outline-none"
+                  className="w-full bg-[#201D35] border border-[#443B60] rounded-xl p-3 text-[#F3EFFB] font-mono text-[11px] select-all focus:outline-none"
                 />
               </div>
 
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleCopyPgn}
-                  className="flex-1 py-2 px-3 bg-[#202F50] hover:bg-[#202F50]/80 text-[#EDF2FF] rounded-xl font-medium border border-[#304263] flex items-center justify-center gap-1.5 transition"
+                  className="flex-1 py-2.5 px-3 bg-[#201D35] hover:bg-[#332D4D] text-[#F3EFFB] rounded-xl font-medium border border-[#443B60] flex items-center justify-center gap-1.5 transition tracking-wide text-xs"
                 >
-                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-[#8EA6F0]" />}
+                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-[#B7A5E8]" />}
                   <span>{copied ? 'Copied!' : 'Copy to Clipboard'}</span>
                 </button>
                 <button
                   onClick={handleDownloadPgn}
-                  className="flex-1 py-2 px-3 bg-[#6685DB] hover:bg-[#5774C9] text-white font-semibold rounded-xl flex items-center justify-center gap-1.5 transition shadow-sm"
+                  className="flex-1 py-2.5 px-3 bg-[#B7A5E8] hover:bg-[#C4B5FD] text-[#171525] font-semibold rounded-xl flex items-center justify-center gap-1.5 transition shadow-xs tracking-wide text-xs border border-[#B7A5E8]/40"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>Download .pgn</span>
@@ -260,16 +260,16 @@ export const ImportExportModal: React.FC<ImportExportModalProps> = ({
 
         {/* Footer Actions */}
         {activeTab === 'import' && (
-          <div className="p-3 bg-[#131E36] border-t border-[#304263] flex justify-end gap-2">
+          <div className="p-3 bg-[#201D35] border-t border-[#443B60] flex justify-end gap-2">
             <button
               onClick={onClose}
-              className="px-3.5 py-1.5 text-xs text-[#9AAAC9] hover:text-[#EDF2FF] transition font-medium"
+              className="px-3.5 py-1.5 text-xs text-[#B8AFD1] hover:text-[#F3EFFB] transition font-medium tracking-wide"
             >
               Cancel
             </button>
             <button
               onClick={handleImport}
-              className="px-4 py-1.5 text-xs bg-[#6685DB] hover:bg-[#5774C9] text-white font-semibold rounded-xl transition shadow-sm"
+              className="px-4 py-2 text-xs bg-[#B7A5E8] hover:bg-[#C4B5FD] text-[#171525] font-semibold rounded-xl transition shadow-xs tracking-wide border border-[#B7A5E8]/40"
             >
               Load Game
             </button>

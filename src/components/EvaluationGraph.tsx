@@ -139,19 +139,20 @@ export const EvaluationGraph: React.FC<EvaluationGraphProps> = ({
 
   return (
     <div className="space-y-1.5 select-none">
-      <div className="flex justify-between items-center text-[11px] text-[#9AAAC9] font-medium">
-        <span className="text-[#EDF2FF] font-semibold flex items-center gap-1.5">
+      <div className="flex justify-between items-center text-[11px] text-[#B8AFD1] font-medium">
+        <span className="text-[#B7A5E8] font-semibold flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#B7A5E8]"></span>
           <span>Evaluation Graph</span>
-          <span className="text-[10px] text-[#8EA6F0] font-normal">
+          <span className="text-[10px] text-[#8C81A8] font-mono font-normal">
             {isReviewing
               ? `Analyzing (${evaluatedCount}/${points.length})`
               : `(${evaluatedCount}/${points.length} evaluated)`}
           </span>
         </span>
-        <span className="font-mono text-[10px] text-[#9AAAC9]">Scale: ±8.0</span>
+        <span className="font-mono text-[10px] text-[#8C81A8]">Scale: ±8.0</span>
       </div>
 
-      <div className="relative w-full overflow-hidden bg-[#0D1428]/60 p-1.5 rounded-xl border border-[#304263]">
+      <div className="relative w-full overflow-hidden bg-[#201D35] p-2 rounded-xl border border-[#443B60]">
         <svg
           viewBox={`0 0 ${width} ${height}`}
           className="w-full h-12 sm:h-14 overflow-visible cursor-pointer"
@@ -159,19 +160,19 @@ export const EvaluationGraph: React.FC<EvaluationGraphProps> = ({
           {/* Background Gradient Area */}
           <defs>
             <linearGradient id="evalGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#8EA6F0" stopOpacity="0.30" />
-              <stop offset="50%" stopColor="#6685DB" stopOpacity="0.10" />
-              <stop offset="100%" stopColor="#0D1428" stopOpacity="0.25" />
+              <stop offset="0%" stopColor="#B7A5E8" stopOpacity="0.25" />
+              <stop offset="50%" stopColor="#B7A5E8" stopOpacity="0.08" />
+              <stop offset="100%" stopColor="#171525" stopOpacity="0.10" />
             </linearGradient>
           </defs>
 
-          {/* Center Equality Reference Line */}
+          {/* Center Equality Reference Line: Subtle lavender reference line */}
           <line
             x1="8"
             y1={centerY}
             x2={width - 8}
             y2={centerY}
-            stroke="#304263"
+            stroke="rgba(183, 165, 232, 0.25)"
             strokeDasharray="3 3"
             strokeWidth="1"
           />
@@ -181,8 +182,8 @@ export const EvaluationGraph: React.FC<EvaluationGraphProps> = ({
             <path
               d={pathD}
               fill="none"
-              stroke="#8EA6F0"
-              strokeWidth="2.2"
+              stroke="#B7A5E8"
+              strokeWidth="1.8"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
@@ -201,11 +202,10 @@ export const EvaluationGraph: React.FC<EvaluationGraphProps> = ({
                   <circle
                     cx={pt.x}
                     cy={pt.y}
-                    r="6.5"
+                    r="6"
                     fill="none"
-                    stroke="#B9A9E8"
-                    strokeWidth="2.5"
-                    className="animate-pulse"
+                    stroke="#B8AFD1"
+                    strokeWidth="1.5"
                   />
                 )}
 
@@ -217,13 +217,13 @@ export const EvaluationGraph: React.FC<EvaluationGraphProps> = ({
                   fill={
                     pt.hasEval
                       ? pt.isCurrent
-                        ? '#FFFFFF'
+                        ? '#F3EFFB'
                         : pt.isMainline
-                        ? '#8EA6F0'
-                        : '#B9A9E8'
-                      : '#304263'
+                        ? '#B7A5E8'
+                        : '#B8AFD1'
+                      : 'rgba(243, 239, 251, 0.15)'
                   }
-                  stroke={pt.hasEval ? '#131E36' : '#304263'}
+                  stroke={pt.hasEval ? '#201D35' : 'rgba(243, 239, 251, 0.1)'}
                   strokeWidth="1.2"
                   className="transition-transform group-hover:scale-125"
                 />

@@ -17,7 +17,6 @@ describe('RazborChess: Interactive Board & Navigation', () => {
     // Middle box content must NOT be present
     expect(screen.queryByText(/LIVE CHESS/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Championship Match/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Chess\.com/i)).not.toBeInTheDocument();
 
     // Top and bottom player panels present above and below board
     expect(screen.getByTestId('top-player-panel')).toBeInTheDocument();
@@ -110,14 +109,15 @@ describe('RazborChess: Interactive Board & Navigation', () => {
     expect(screen.getByTitle(/First Move/i)).toBeInTheDocument();
     expect(screen.getByTitle(/Next Move/i)).toBeInTheDocument();
 
-    // Right Column: Game Review controls and readiness
+    // Right Column: Single primary Game Review controls
     expect(screen.getAllByText(/Game Review/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/Game Review Ready/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Game Review Ready/i)).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Start Game Review Now/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Start Game Review/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Fast \(12\)/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Standard \(14\)/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Deep \(16\)/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Master \(18\)/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Start Game Review Now/i })).toBeInTheDocument();
   });
 
   it('maintains responsive stacked layout structure and safe scroll alignment for narrow viewports', () => {

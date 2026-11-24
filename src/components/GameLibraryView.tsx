@@ -164,15 +164,15 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full space-y-3 text-xs text-[#EDF2FF] overflow-y-auto pr-1">
+    <div className="flex flex-col h-full space-y-3 text-xs text-[#F3EFFB] overflow-y-auto pr-1">
       {/* 1. Header Toolbar */}
-      <div className="bg-[#192744] p-3.5 rounded-3xl border border-[#304263] space-y-3 shadow-md">
+      <div className="bg-[#292440] p-3.5 rounded-2xl border border-[#443B60] space-y-3 shadow-xs">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <FolderOpen className="w-4 h-4 text-[#8EA6F0]" />
-            <h3 className="font-bold text-[#EDF2FF] text-sm">Game Library</h3>
+            <FolderOpen className="w-4 h-4 text-[#B7A5E8]" />
+            <h3 className="font-bold text-[#F3EFFB] text-sm tracking-wide">Game Library</h3>
           </div>
-          <span className="text-[10px] text-[#9AAAC9] font-mono">
+          <span className="text-[10px] text-[#B8AFD1] font-mono">
             {games.length} {games.length === 1 ? 'game' : 'games'} saved
           </span>
         </div>
@@ -181,7 +181,7 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={() => onSaveCurrentGame()}
-            className="py-2 px-3 bg-[#6685DB] hover:bg-[#5774C9] text-white rounded-2xl text-xs font-bold flex items-center justify-center gap-1.5 transition shadow-sm"
+            className="py-2.5 px-3 bg-[#B7A5E8] hover:bg-[#C4B5FD] text-[#171525] rounded-xl text-xs font-semibold tracking-wide flex items-center justify-center gap-1.5 transition shadow-xs border border-[#B7A5E8]/40"
             title="Save current board game to library"
           >
             <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -190,26 +190,26 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
 
           <button
             onClick={() => setShowImportModal(true)}
-            className="py-2 px-3 bg-[#202F50] hover:bg-[#202F50]/80 text-[#EDF2FF] border border-[#304263] rounded-2xl text-xs font-semibold flex items-center justify-center gap-1.5 transition"
+            className="py-2.5 px-3 bg-[#201D35] hover:bg-[#332D4D] text-[#F3EFFB] border border-[#443B60] hover:border-[#B7A5E8]/40 rounded-xl text-xs font-semibold tracking-wide flex items-center justify-center gap-1.5 transition"
             title="Import single or multiple games from PGN"
           >
-            <Upload className="w-3.5 h-3.5 text-[#8EA6F0]" />
+            <Upload className="w-3.5 h-3.5 text-[#B7A5E8]" />
             <span>Import PGN</span>
           </button>
         </div>
 
         {/* Backup & Export Bar */}
-        <div className="flex items-center justify-between pt-1 border-t border-[#304263] text-[10px] text-[#9AAAC9]">
+        <div className="flex items-center justify-between pt-1 border-t border-[#443B60] text-[10px] text-[#B8AFD1]">
           <div className="flex gap-2">
             <button
               onClick={onExportBackup}
-              className="text-[#8EA6F0] hover:underline flex items-center gap-1 font-medium"
+              className="text-[#B7A5E8] hover:underline flex items-center gap-1 font-semibold tracking-wide"
               title="Download entire library as JSON backup"
             >
               <Download className="w-3 h-3" /> Backup Library
             </button>
             <span>•</span>
-            <label className="text-[#9AAAC9] hover:text-[#EDF2FF] cursor-pointer flex items-center gap-1 font-medium">
+            <label className="text-[#B8AFD1] hover:text-[#F3EFFB] cursor-pointer flex items-center gap-1 font-medium">
               <Upload className="w-3 h-3" /> Restore Backup
               <input 
                 type="file" 
@@ -223,7 +223,7 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
           {games.length > 0 && (
             <button
               onClick={() => onExportMultiPgn()}
-              className="text-[#9AAAC9] hover:text-[#EDF2FF] flex items-center gap-1 font-medium"
+              className="text-[#B8AFD1] hover:text-[#F3EFFB] flex items-center gap-1 font-medium"
               title="Export all games into a single PGN file"
             >
               <FileText className="w-3 h-3" /> Export All PGN
@@ -233,21 +233,21 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
       </div>
 
       {/* 2. Search Bar */}
-      <div className="bg-[#192744] p-3 rounded-2xl border border-[#304263] shadow-md">
+      <div className="bg-[#292440] p-3 rounded-2xl border border-[#443B60] shadow-xs">
         {/* Search input */}
         <div className="relative">
-          <Search className="w-3.5 h-3.5 text-[#9AAAC9] absolute left-3 top-2.5" />
+          <Search className="w-3.5 h-3.5 text-[#B8AFD1] absolute left-3 top-2.5" />
           <input
             type="text"
             placeholder="Search players, event, opening, title..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#131E36] border border-[#304263] rounded-xl pl-8 pr-3 py-1.5 text-xs text-[#EDF2FF] placeholder-[#607294] focus:outline-none focus:border-[#6685DB]"
+            className="w-full bg-[#201D35] border border-[#443B60] rounded-xl pl-8 pr-3 py-1.5 text-xs text-[#F3EFFB] placeholder-[#8C81A8] focus:outline-none focus:border-[#B7A5E8]"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-2.5 top-2.5 text-[#9AAAC9] hover:text-[#EDF2FF]"
+              className="absolute right-2.5 top-2.5 text-[#B8AFD1] hover:text-[#F3EFFB]"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -258,15 +258,15 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
       {/* 3. Games List - Responsive Grid for Wider Layout */}
       <div className="flex-1 min-h-[220px]">
         {filteredGames.length === 0 ? (
-          <div className="bg-[#192744] p-8 rounded-3xl border border-[#304263] text-center space-y-2 shadow-md">
-            <FolderOpen className="w-8 h-8 text-[#6685DB]/40 mx-auto" />
-            <p className="text-[#9AAAC9] text-xs font-medium">
+          <div className="bg-[#292440] p-8 rounded-2xl border border-[#443B60] text-center space-y-2 shadow-xs">
+            <FolderOpen className="w-8 h-8 text-[#B7A5E8]/40 mx-auto" />
+            <p className="text-[#B8AFD1] text-xs font-medium">
               {games.length === 0 ? 'No games saved in your library yet.' : 'No games match your search.'}
             </p>
             {games.length === 0 && (
               <button
                 onClick={() => onSaveCurrentGame()}
-                className="mt-2 py-2 px-4 bg-[#6685DB] hover:bg-[#5774C9] text-white font-semibold text-xs rounded-2xl transition shadow-sm"
+                className="mt-2 py-2 px-4 bg-[#B7A5E8] hover:bg-[#C4B5FD] text-[#171525] font-semibold text-xs rounded-xl transition shadow-xs tracking-wide"
               >
                 Save Current Board to Library
               </button>
@@ -284,8 +284,8 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
                   key={game.id}
                   className={`p-3.5 rounded-2xl border transition flex flex-col justify-between gap-2.5 ${
                     isActive 
-                      ? 'border-[#6685DB] bg-[#202F50] shadow-md ring-1 ring-[#6685DB]/40' 
-                      : 'border-[#304263] bg-[#192744] hover:border-[#6685DB]/60 hover:bg-[#192744]/90 shadow-sm'
+                      ? 'border-[#B7A5E8] bg-[#332D4D] shadow-xs' 
+                      : 'border-[#443B60] bg-[#292440] hover:border-[#B7A5E8]/40 hover:bg-[#332D4D]/60 shadow-xs'
                   }`}
                 >
                   {/* Title & Result Badge */}
@@ -297,7 +297,7 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
                             type="text"
                             value={newTitle}
                             onChange={(e) => setNewTitle(e.target.value)}
-                            className="bg-[#131E36] border border-[#6685DB] rounded-lg px-2 py-0.5 text-xs text-[#EDF2FF] w-full focus:outline-none"
+                            className="bg-[#201D35] border border-[#B7A5E8] rounded-xl px-2.5 py-1 text-xs text-[#F3EFFB] w-full focus:outline-none"
                             autoFocus
                           />
                           <button
@@ -308,14 +308,14 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
                           </button>
                           <button
                             onClick={() => setEditingGameId(null)}
-                            className="text-[#9AAAC9] hover:text-[#EDF2FF]"
+                            className="text-[#B8AFD1] hover:text-[#F3EFFB]"
                           >
                             <X className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       ) : (
                         <h4 
-                          className="font-bold text-[#EDF2FF] text-xs truncate cursor-pointer hover:text-[#8EA6F0] transition"
+                          className="font-semibold text-[#F3EFFB] text-xs truncate cursor-pointer hover:text-[#B7A5E8] transition"
                           onClick={() => onOpenGame(game)}
                           title={game.title}
                         >
@@ -325,19 +325,19 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
 
                       {/* Players & Ratings */}
                       {(game.metadata.white || game.metadata.black) && (
-                        <div className="text-[11px] text-[#C5D5FA] font-medium truncate pt-0.5">
+                        <div className="text-[11px] text-[#B8AFD1] font-medium truncate pt-0.5">
                           <span>{game.metadata.white || 'White'}</span>
-                          {game.metadata.whiteElo && <span className="text-[#9AAAC9] font-mono text-[10px] ml-0.5">({game.metadata.whiteElo})</span>}
-                          <span className="text-[#9AAAC9] mx-1">vs</span>
+                          {game.metadata.whiteElo && <span className="text-[#B8AFD1] font-mono text-[10px] ml-0.5">({game.metadata.whiteElo})</span>}
+                          <span className="text-[#8C81A8] mx-1">vs</span>
                           <span>{game.metadata.black || 'Black'}</span>
-                          {game.metadata.blackElo && <span className="text-[#9AAAC9] font-mono text-[10px] ml-0.5">({game.metadata.blackElo})</span>}
+                          {game.metadata.blackElo && <span className="text-[#B8AFD1] font-mono text-[10px] ml-0.5">({game.metadata.blackElo})</span>}
                         </div>
                       )}
 
                       {/* Subtitle / Details */}
-                      <div className="flex flex-wrap items-center gap-1.5 text-[10px] text-[#9AAAC9] pt-1">
+                      <div className="flex flex-wrap items-center gap-1.5 text-[10px] text-[#B8AFD1] pt-1">
                         <span className="flex items-center gap-1">
-                          <Calendar className="w-2.5 h-2.5" />
+                          <Calendar className="w-2.5 h-2.5 text-[#B7A5E8]" />
                           {game.metadata.date || new Date(game.createdAt).toISOString().slice(0, 10)}
                         </span>
                         <span>•</span>
@@ -345,7 +345,7 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
                         {game.eco && (
                           <>
                             <span>•</span>
-                            <span className="font-mono text-[#8EA6F0] font-semibold">{game.eco}</span>
+                            <span className="font-mono text-[#B7A5E8] font-medium">{game.eco}</span>
                           </>
                         )}
                         {game.openingName && (
@@ -359,14 +359,14 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
 
                     {/* Result Pill */}
                     <span
-                      className={`font-mono font-bold text-[10px] px-2 py-0.5 rounded-full border shrink-0 ${
+                      className={`font-mono font-medium text-[10px] px-2 py-0.5 rounded-full border shrink-0 ${
                         res === '1-0'
-                          ? 'bg-emerald-950/50 text-emerald-300 border-emerald-700/50'
+                          ? 'bg-[#B7A5E8]/20 text-[#B7A5E8] border-[#B7A5E8]/35'
                           : res === '0-1'
-                          ? 'bg-red-950/50 text-red-300 border-red-700/50'
+                          ? 'bg-[#d3503c]/20 text-[#d3503c] border-[#d3503c]/35'
                           : res === '1/2-1/2'
-                          ? 'bg-blue-950/50 text-blue-300 border-blue-700/50'
-                          : 'bg-[#202F50] text-[#9AAAC9] border-[#304263]'
+                          ? 'bg-[#B7A5E8]/15 text-[#B8AFD1] border-[#443B60]'
+                          : 'bg-white/[0.05] text-[#B8AFD1] border-[#443B60]'
                       }`}
                     >
                       {res}
@@ -375,60 +375,60 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
 
                   {/* Review summary badges if reviewed */}
                   {game.reviewReport && (
-                    <div className="flex items-center justify-between bg-[#131E36] px-2.5 py-1.5 rounded-xl text-[10px] border border-[#304263]">
-                      <span className="flex items-center gap-1 text-[#9AAAC9]">
-                        <Award className="w-3 h-3 text-[#8EA6F0]" />
+                    <div className="flex items-center justify-between bg-[#201D35] px-2.5 py-1.5 rounded-xl text-[10px] border border-[#443B60]">
+                      <span className="flex items-center gap-1 text-[#B8AFD1]">
+                        <Award className="w-3 h-3 text-[#B7A5E8]" />
                         Accuracy:
                       </span>
                       {game.reviewReport.schemaVersion === CURRENT_REVIEW_SCHEMA_VERSION ? (
-                        <div className="flex items-center gap-3 font-mono font-bold">
-                          <span className="text-[#EDF2FF]">
-                            W: <span className="text-[#8EA6F0]">{game.reviewReport.whiteAccuracy}%</span>
+                        <div className="flex items-center gap-3 font-mono font-medium">
+                          <span className="text-[#F3EFFB]">
+                            W: <span className="text-[#B7A5E8]">{game.reviewReport.whiteAccuracy}%</span>
                           </span>
-                          <span className="text-[#EDF2FF]">
-                            B: <span className="text-[#8EA6F0]">{game.reviewReport.blackAccuracy}%</span>
+                          <span className="text-[#F3EFFB]">
+                            B: <span className="text-[#B7A5E8]">{game.reviewReport.blackAccuracy}%</span>
                           </span>
                         </div>
                       ) : (
-                        <span className="text-amber-400 font-mono text-[9px]">Re-analysis needed</span>
+                        <span className="text-[#B7A5E8] font-mono text-[9px]">Re-analysis needed</span>
                       )}
                     </div>
                   )}
 
                   {/* Action Buttons Toolbar */}
-                  <div className="flex items-center justify-between pt-1.5 border-t border-[#304263] text-[10px]">
+                  <div className="flex items-center justify-between pt-1.5 border-t border-[#443B60] text-[10px]">
                     <button
                       onClick={() => onOpenGame(game)}
-                      className="text-[#8EA6F0] hover:text-[#EDF2FF] font-semibold flex items-center gap-1 transition"
+                      className="text-[#B7A5E8] hover:text-[#F3EFFB] font-medium flex items-center gap-1 transition"
                     >
                       Open in Board
                     </button>
 
-                    <div className="flex items-center gap-2 text-[#9AAAC9]">
+                    <div className="flex items-center gap-2 text-[#B8AFD1]">
                       <button
                         onClick={() => handleStartRename(game)}
-                        className="hover:text-[#EDF2FF] transition p-1 hover:bg-[#202F50] rounded"
+                        className="hover:text-[#F3EFFB] transition p-1 hover:bg-white/[0.06] rounded-lg"
                         title="Rename game"
                       >
                         <Edit3 className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={() => onDuplicateGame(game)}
-                        className="hover:text-[#EDF2FF] transition p-1 hover:bg-[#202F50] rounded"
+                        className="hover:text-[#F3EFFB] transition p-1 hover:bg-white/[0.06] rounded-lg"
                         title="Duplicate game"
                       >
                         <Copy className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={() => onExportMultiPgn([game.id])}
-                        className="hover:text-[#EDF2FF] transition p-1 hover:bg-[#202F50] rounded"
+                        className="hover:text-[#F3EFFB] transition p-1 hover:bg-white/[0.06] rounded-lg"
                         title="Download PGN"
                       >
                         <Download className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={() => setGameToDelete(game)}
-                        className="hover:text-red-400 transition p-1 hover:bg-red-950/40 rounded"
+                        className="hover:text-[#d3503c] transition p-1 hover:bg-[#d3503c]/15 rounded-lg"
                         title="Delete game"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -444,19 +444,19 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
 
       {/* Delete Confirmation Modal */}
       {gameToDelete && (
-        <div className="fixed inset-0 z-50 bg-[#0B1020]/75 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#192744] border border-[#304263] p-5 rounded-3xl max-w-sm w-full space-y-3 shadow-2xl text-[#EDF2FF]">
-            <h4 className="font-bold text-[#F87171] text-sm flex items-center gap-1.5">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#292440] border border-[#443B60] p-5 rounded-2xl max-w-sm w-full space-y-3 shadow-2xl text-[#F3EFFB]">
+            <h4 className="font-bold text-[#d3503c] text-sm flex items-center gap-1.5">
               <Trash2 className="w-4 h-4" />
               Delete Saved Game?
             </h4>
-            <p className="text-xs text-[#9AAAC9]">
-              Are you sure you want to delete <strong className="text-[#EDF2FF]">"{gameToDelete.title}"</strong>? This will permanently remove its moves, variations, and review reports.
+            <p className="text-xs text-[#B8AFD1]">
+              Are you sure you want to delete <strong className="text-[#F3EFFB]">"{gameToDelete.title}"</strong>? This will permanently remove its moves, variations, and review reports.
             </p>
             <div className="flex justify-end gap-2 pt-2">
               <button
                 onClick={() => setGameToDelete(null)}
-                className="px-3.5 py-1.5 rounded-xl bg-[#202F50] text-[#9AAAC9] border border-[#304263] hover:text-[#EDF2FF] text-xs font-medium"
+                className="px-3.5 py-1.5 rounded-xl bg-[#201D35] text-[#B8AFD1] border border-[#443B60] hover:text-[#F3EFFB] hover:bg-[#332D4D] text-xs font-medium"
               >
                 Cancel
               </button>
@@ -466,7 +466,7 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
                   onDeleteGame(gameToDelete.id);
                   setGameToDelete(null);
                 }}
-                className="px-3.5 py-1.5 rounded-xl bg-[#DC2626] hover:bg-[#B91C1C] text-white font-bold text-xs shadow-sm"
+                className="px-3.5 py-1.5 rounded-xl bg-[#d3503c] hover:bg-[#b8412f] text-white font-medium text-xs shadow-xs"
               >
                 Delete Game
               </button>
@@ -477,11 +477,11 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
 
       {/* Multi-PGN Import Modal */}
       {showImportModal && (
-        <div className="fixed inset-0 z-50 bg-[#0B1020]/75 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#192744] border border-[#304263] p-5 rounded-3xl max-w-md w-full space-y-3 shadow-2xl text-[#EDF2FF]">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#292440] border border-[#443B60] p-5 rounded-2xl max-w-md w-full space-y-3 shadow-2xl text-[#F3EFFB]">
             <div className="flex justify-between items-center">
-              <h4 className="font-bold text-[#EDF2FF] text-sm flex items-center gap-1.5">
-                <Upload className="w-4 h-4 text-[#8EA6F0]" />
+              <h4 className="font-bold text-[#F3EFFB] text-sm flex items-center gap-1.5">
+                <Upload className="w-4 h-4 text-[#B7A5E8]" />
                 Import Single or Multi-Game PGN
               </h4>
               <button
@@ -489,13 +489,13 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
                   setShowImportModal(false);
                   setImportStatus(null);
                 }}
-                className="text-[#9AAAC9] hover:text-[#EDF2FF]"
+                className="text-[#B8AFD1] hover:text-[#F3EFFB]"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="text-xs text-[#9AAAC9]">
+            <p className="text-xs text-[#B8AFD1]">
               Paste standard PGN text or multiple games separated by headers. Valid games will be added to your library.
             </p>
 
@@ -504,11 +504,11 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
               value={pgnInputText}
               onChange={(e) => setPgnInputText(e.target.value)}
               placeholder={`[Event "World Championship"]\n[White "Carlsen"]\n[Black "Nepo"]\n\n1. e4 e5 ...`}
-              className="w-full bg-[#131E36] border border-[#304263] rounded-2xl p-2.5 text-xs font-mono text-[#EDF2FF] placeholder-[#607294] focus:outline-none focus:border-[#6685DB]"
+              className="w-full bg-[#201D35] border border-[#443B60] rounded-xl p-2.5 text-xs font-mono text-[#F3EFFB] placeholder-[#8C81A8] focus:outline-none focus:border-[#B7A5E8]"
             />
 
             <div className="flex items-center justify-between text-xs">
-              <label className="text-xs text-[#8EA6F0] hover:underline cursor-pointer flex items-center gap-1 font-medium">
+              <label className="text-xs text-[#B7A5E8] hover:underline cursor-pointer flex items-center gap-1 font-medium">
                 <Upload className="w-3.5 h-3.5" /> Upload .pgn file
                 <input 
                   type="file" 
@@ -519,26 +519,26 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
               </label>
 
               {importStatus && (
-                <span className="text-[11px] text-amber-400 font-medium">
+                <span className="text-[11px] text-[#B7A5E8] font-medium">
                   {importStatus}
                 </span>
               )}
             </div>
 
-            <div className="flex justify-end gap-2 pt-2 border-t border-[#304263]">
+            <div className="flex justify-end gap-2 pt-2 border-t border-[#443B60]">
               <button
                 onClick={() => {
                   setShowImportModal(false);
                   setImportStatus(null);
                 }}
-                className="px-3.5 py-1.5 rounded-xl bg-[#202F50] text-[#9AAAC9] border border-[#304263] hover:text-[#EDF2FF] text-xs font-medium"
+                className="px-3.5 py-1.5 rounded-xl bg-[#201D35] text-[#B8AFD1] border border-[#443B60] hover:text-[#F3EFFB] hover:bg-[#332D4D] text-xs font-medium"
               >
                 Cancel
               </button>
               <button
                 onClick={handleMultiPgnImportSubmit}
                 disabled={!pgnInputText.trim()}
-                className="px-3.5 py-1.5 rounded-xl bg-[#6685DB] hover:bg-[#5774C9] disabled:bg-[#202F50] disabled:text-[#607294] text-white font-bold text-xs shadow-sm"
+                className="px-3.5 py-1.5 rounded-xl bg-[#B7A5E8] hover:bg-[#C4B5FD] disabled:bg-[#201D35] disabled:text-[#8C81A8] text-[#171525] font-semibold text-xs shadow-xs"
               >
                 Import Games
               </button>
@@ -549,67 +549,67 @@ export const GameLibraryView: React.FC<GameLibraryViewProps> = ({
 
       {/* Restore Backup Modal */}
       {showRestoreModal && (
-        <div className="fixed inset-0 z-50 bg-[#0B1020]/75 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#192744] border border-[#304263] p-5 rounded-3xl max-w-md w-full space-y-3 shadow-2xl text-[#EDF2FF]">
-            <h4 className="font-bold text-[#EDF2FF] text-sm flex items-center gap-1.5">
-              <Upload className="w-4 h-4 text-[#8EA6F0]" />
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#292440] border border-[#443B60] p-5 rounded-2xl max-w-md w-full space-y-3 shadow-2xl text-[#F3EFFB]">
+            <h4 className="font-bold text-[#F3EFFB] text-sm flex items-center gap-1.5">
+              <Upload className="w-4 h-4 text-[#B7A5E8]" />
               Restore RazborChess Library Backup
             </h4>
-            <p className="text-xs text-[#9AAAC9]">
+            <p className="text-xs text-[#B8AFD1]">
               Choose how you would like to import the library backup:
             </p>
 
             <div className="space-y-2">
-              <label className="flex items-start gap-2 bg-[#131E36] p-3 rounded-2xl border border-[#304263] cursor-pointer">
+              <label className="flex items-start gap-2 bg-[#201D35] p-3 rounded-xl border border-[#443B60] cursor-pointer">
                 <input
                   type="radio"
                   name="restoreMode"
                   value="merge"
                   checked={restoreMode === 'merge'}
                   onChange={() => setRestoreMode('merge')}
-                  className="mt-0.5 accent-[#6685DB]"
+                  className="mt-0.5 accent-[#B7A5E8]"
                 />
                 <div>
-                  <span className="font-semibold text-[#EDF2FF] block text-xs">Merge with Existing Library (Safe)</span>
-                  <span className="text-[11px] text-[#9AAAC9]">Keeps your existing saved games and adds new non-duplicate games.</span>
+                  <span className="font-semibold text-[#F3EFFB] block text-xs">Merge with Existing Library (Safe)</span>
+                  <span className="text-[11px] text-[#B8AFD1]">Keeps your existing saved games and adds new non-duplicate games.</span>
                 </div>
               </label>
 
-              <label className="flex items-start gap-2 bg-red-950/30 p-3 rounded-2xl border border-red-800/40 cursor-pointer">
+              <label className="flex items-start gap-2 bg-[#d3503c]/15 p-3 rounded-xl border border-[#d3503c]/30 cursor-pointer">
                 <input
                   type="radio"
                   name="restoreMode"
                   value="overwrite"
                   checked={restoreMode === 'overwrite'}
                   onChange={() => setRestoreMode('overwrite')}
-                  className="mt-0.5 accent-red-500"
+                  className="mt-0.5 accent-[#d3503c]"
                 />
                 <div>
-                  <span className="font-semibold text-red-300 block text-xs">Overwrite Library</span>
-                  <span className="text-[11px] text-[#9AAAC9]">Replaces all currently saved games with the backup file.</span>
+                  <span className="font-semibold text-[#F3EFFB] block text-xs">Overwrite Library</span>
+                  <span className="text-[11px] text-[#B8AFD1]">Replaces all currently saved games with the backup file.</span>
                 </div>
               </label>
             </div>
 
             {restoreError && (
-              <div className="text-red-300 text-xs bg-red-950/40 p-2.5 rounded-xl border border-red-800/50">
+              <div className="text-[#d3503c] text-xs bg-[#d3503c]/15 p-2.5 rounded-xl border border-[#d3503c]/30">
                 {restoreError}
               </div>
             )}
 
-            <div className="flex justify-end gap-2 pt-2 border-t border-[#304263]">
+            <div className="flex justify-end gap-2 pt-2 border-t border-[#443B60]">
               <button
                 onClick={() => {
                   setShowRestoreModal(false);
                   setRestoreError(null);
                 }}
-                className="px-3.5 py-1.5 rounded-xl bg-[#202F50] text-[#9AAAC9] border border-[#304263] hover:text-[#EDF2FF] text-xs font-medium"
+                className="px-3.5 py-1.5 rounded-xl bg-[#201D35] text-[#B8AFD1] border border-[#443B60] hover:text-[#F3EFFB] hover:bg-[#332D4D] text-xs font-medium"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirmRestore}
-                className="px-3.5 py-1.5 rounded-xl bg-[#6685DB] hover:bg-[#5774C9] text-white font-bold text-xs shadow-sm"
+                className="px-3.5 py-1.5 rounded-xl bg-[#B7A5E8] hover:bg-[#C4B5FD] text-[#171525] font-semibold text-xs shadow-xs"
               >
                 Confirm Restore
               </button>

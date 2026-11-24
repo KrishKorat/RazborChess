@@ -83,19 +83,19 @@ export const MoveHistory: React.FC<MoveHistoryProps> = ({
   }, [currentNodeId]);
 
   return (
-    <div className="flex flex-col h-full min-h-0 overflow-hidden text-xs text-[#EDF2FF]">
+    <div className="flex flex-col h-full min-h-0 overflow-hidden text-xs text-[#F3EFFB]">
       {/* Game Header Metadata */}
       {metadata && (metadata.white || metadata.black) && (
-        <div className="p-2.5 sm:p-3 bg-[#131E36] border-b border-[#304263] flex items-center justify-between text-xs shrink-0">
-          <div className="font-semibold text-[#EDF2FF] truncate max-w-[240px] flex items-center gap-1.5">
+        <div className="p-2.5 sm:p-3 bg-[#171525] border-b border-[#443B60] flex items-center justify-between text-xs shrink-0">
+          <div className="font-semibold text-[#F3EFFB] truncate max-w-[240px] flex items-center gap-1.5">
             <span className="truncate">{metadata.white || 'White'}</span>
-            {metadata.whiteElo && <span className="text-[#9AAAC9] text-[10px] font-mono">({metadata.whiteElo})</span>}
-            <span className="text-[#9AAAC9] font-normal">vs</span>
+            {metadata.whiteElo && <span className="text-[#B8AFD1] text-[10px] font-mono">({metadata.whiteElo})</span>}
+            <span className="text-[#8C81A8] font-normal text-[10px]">vs</span>
             <span className="truncate">{metadata.black || 'Black'}</span>
-            {metadata.blackElo && <span className="text-[#9AAAC9] text-[10px] font-mono">({metadata.blackElo})</span>}
+            {metadata.blackElo && <span className="text-[#B8AFD1] text-[10px] font-mono">({metadata.blackElo})</span>}
           </div>
           {metadata.result && (
-            <span className="font-mono font-bold text-[#C5D5FA] bg-[#202F50] px-2 py-0.5 rounded-full border border-[#304263] text-xs">
+            <span className="font-mono font-bold text-[#B7A5E8] bg-[#B7A5E8]/15 px-2 py-0.5 rounded-md border border-[#B7A5E8]/25 text-xs">
               {metadata.result}
             </span>
           )}
@@ -108,9 +108,9 @@ export const MoveHistory: React.FC<MoveHistoryProps> = ({
       {/* Move List Body */}
       <div className="flex-1 min-h-0 overflow-y-auto p-2 sm:p-2.5 space-y-0.5 overscroll-contain">
         {turns.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-center p-6 text-[#9AAAC9] italic text-[11px]">
+          <div className="h-full flex flex-col items-center justify-center text-center p-6 text-[#B8AFD1] italic text-[11px]">
             <span>Start position</span>
-            <span className="text-[10px] mt-1 text-[#9AAAC9]/80">Play a move on the board to begin analysis.</span>
+            <span className="text-[10px] mt-1 text-[#8C81A8]">Play a move on the board to begin analysis.</span>
           </div>
         ) : (
           turns.map((turn) => {
@@ -143,10 +143,10 @@ export const MoveHistory: React.FC<MoveHistoryProps> = ({
             return (
               <div 
                 key={`${turn.moveNumber}-${turn.white?.id || ''}`} 
-                className="grid grid-cols-[36px_1fr_1fr] sm:grid-cols-[42px_1fr_1fr] items-center py-0.5 px-1 rounded-xl hover:bg-[#202F50]/60 font-mono text-xs transition"
+                className="grid grid-cols-[36px_1fr_1fr] sm:grid-cols-[42px_1fr_1fr] items-center py-0.5 px-1 rounded-xl hover:bg-white/[0.03] font-mono text-xs transition"
               >
                 {/* Move Number */}
-                <span className="text-[#9AAAC9] font-medium text-xs text-center">{turn.moveNumber}.</span>
+                <span className="text-[#8C81A8] font-semibold text-xs text-center">{turn.moveNumber}.</span>
 
                 {/* White Move */}
                 {turn.white ? (
@@ -155,14 +155,14 @@ export const MoveHistory: React.FC<MoveHistoryProps> = ({
                     onClick={() => onSelectNode(turn.white!.id)}
                     className={`py-1.5 px-2 rounded-xl text-left transition font-semibold flex items-center justify-between gap-1 overflow-hidden min-h-[34px] ${
                       isWhiteActive
-                        ? 'bg-[#6685DB] text-white shadow-sm font-bold border border-[#8EA6F0]/40'
-                        : 'text-[#EDF2FF] hover:bg-[#202F50] hover:text-[#C5D5FA]'
+                        ? 'bg-[#B7A5E8]/20 text-[#F3EFFB] font-bold border border-[#B7A5E8]/40 shadow-xs'
+                        : 'text-[#F3EFFB] hover:bg-white/[0.04] hover:text-white'
                     }`}
                   >
                     <div className="flex items-center gap-1.5 min-w-0 truncate">
                       <span className="truncate text-xs">
                         {turn.white.san}
-                        {turn.white.nag && <span className="text-[#B9A9E8] ml-0.5">{turn.white.nag}</span>}
+                        {turn.white.nag && <span className="text-[#B7A5E8] ml-0.5">{turn.white.nag}</span>}
                       </span>
                       {whiteStyle && (
                         <span 
@@ -175,7 +175,7 @@ export const MoveHistory: React.FC<MoveHistoryProps> = ({
                       )}
                     </div>
                     {hasWhiteVariations && (
-                      <span className="text-[10px] text-[#8EA6F0] ml-1 shrink-0" title="Has alternative branches">
+                      <span className="text-[10px] text-[#B7A5E8] ml-1 shrink-0" title="Has alternative branches">
                         <GitBranch className="w-3 h-3 inline" />
                       </span>
                     )}
@@ -191,14 +191,14 @@ export const MoveHistory: React.FC<MoveHistoryProps> = ({
                     onClick={() => onSelectNode(turn.black!.id)}
                     className={`py-1.5 px-2 rounded-xl text-left transition font-semibold flex items-center justify-between gap-1 overflow-hidden min-h-[34px] ${
                       isBlackActive
-                        ? 'bg-[#6685DB] text-white shadow-sm font-bold border border-[#8EA6F0]/40'
-                        : 'text-[#EDF2FF] hover:bg-[#202F50] hover:text-[#C5D5FA]'
+                        ? 'bg-[#B7A5E8]/20 text-[#F3EFFB] font-bold border border-[#B7A5E8]/40 shadow-xs'
+                        : 'text-[#F3EFFB] hover:bg-white/[0.04] hover:text-white'
                     }`}
                   >
                     <div className="flex items-center gap-1 min-w-0 truncate">
                       <span className="truncate">
                         {turn.black.san}
-                        {turn.black.nag && <span className="text-[#B9A9E8] ml-0.5">{turn.black.nag}</span>}
+                        {turn.black.nag && <span className="text-[#B7A5E8] ml-0.5">{turn.black.nag}</span>}
                       </span>
                       {blackStyle && (
                         <span 
@@ -211,7 +211,7 @@ export const MoveHistory: React.FC<MoveHistoryProps> = ({
                       )}
                     </div>
                     {hasBlackVariations && (
-                      <span className="text-[9px] text-[#8EA6F0] ml-1 shrink-0" title="Has alternative branches">
+                      <span className="text-[9px] text-[#B7A5E8] ml-1 shrink-0" title="Has alternative branches">
                         <GitBranch className="w-2.5 h-2.5 inline" />
                       </span>
                     )}
@@ -227,14 +227,14 @@ export const MoveHistory: React.FC<MoveHistoryProps> = ({
 
       {/* Game State Banner */}
       {(isCheckmate || isStalemate || isDraw) && (
-        <div className="p-2.5 bg-[#131E36] border-t border-[#304263] text-center font-semibold text-[11px]">
+        <div className="p-2.5 bg-[#171525] border-t border-[#443B60] text-center font-bold text-[11px]">
           {isCheckmate && (
-            <span className="text-[#F87171] flex items-center justify-center gap-1.5 font-bold">
+            <span className="text-[#F3EFFB] bg-[#d3503c]/20 px-3 py-1 rounded-xl border border-[#d3503c]/40 flex items-center justify-center gap-1.5">
               <span>♚ Checkmate!</span>
             </span>
           )}
-          {isStalemate && <span className="text-[#FBBF24] font-bold">Draw by Stalemate</span>}
-          {isDraw && !isStalemate && <span className="text-[#FBBF24] font-bold">Draw</span>}
+          {isStalemate && <span className="text-[#B7A5E8] font-bold">Draw by Stalemate</span>}
+          {isDraw && !isStalemate && <span className="text-[#B7A5E8] font-bold">Draw</span>}
         </div>
       )}
     </div>

@@ -1,14 +1,108 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en" class="dark" style="background-color: #171525; margin: 0; padding: 0; width: 100%; height: 100%;">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/chess-knight.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval' 'inline-speculation-rules'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; worker-src 'self' blob:; connect-src 'self' blob: data:;" />
-    <title>RazborChess - Professional Chess Analysis & Game Review</title>
+    <style>
+      html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100%;
+        height: 100%;
+        background-color: #171525 !important;
+        color: #F3EFFB;
+      }
+      #root {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #171525;
+      }
+      @keyframes rc-load-slide {
+        0% { left: -45%; width: 35%; }
+        50% { left: 30%; width: 50%; }
+        100% { left: 105%; width: 35%; }
+      }
+    </style>
+    
+    <title>RazborChess - Free Chess Game Analysis &amp; Review</title>
+    <meta name="description" content="RazborChess provides 100% free chess game analysis and game review powered by Stockfish 19. Get move classifications, accuracy scores, evaluation graphs, and coach explanations without paywalls or subscriptions." />
+    <meta name="keywords" content="free chess game analysis, free chess game review, Stockfish chess analysis, chess move accuracy and classifications, free Chess.com alternative, chess analysis online" />
+    <link rel="canonical" href="https://razborchess.pages.dev/" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Application Branding -->
+    <meta name="application-name" content="RazborChess" />
+    <meta name="apple-mobile-web-app-title" content="RazborChess" />
+    <meta name="theme-color" content="#171525" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="RazborChess" />
+    <meta property="og:url" content="https://razborchess.pages.dev/" />
+    <meta property="og:title" content="RazborChess - Free Chess Game Analysis &amp; Review" />
+    <meta property="og:description" content="Free, unlimited chess game analysis and game review powered by Stockfish 19. Get move classifications, player accuracy scores, and positional coaching explanations directly in your browser." />
+    <meta property="og:image" content="https://razborchess.pages.dev/chess-knight.svg" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:url" content="https://razborchess.pages.dev/" />
+    <meta name="twitter:title" content="RazborChess - Free Chess Game Analysis &amp; Review" />
+    <meta name="twitter:description" content="Free, unlimited chess game analysis and game review powered by Stockfish 19. Get move classifications, player accuracy scores, and positional coaching explanations directly in your browser." />
+    <meta name="twitter:image" content="https://razborchess.pages.dev/chess-knight.svg" />
+
+    <!-- Structured Data: SoftwareApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "RazborChess",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "All (Web Browser)",
+      "url": "https://razborchess.pages.dev/",
+      "description": "Free web-based chess game analysis and review platform featuring Stockfish 19 WASM, move accuracy scoring, classifications from Brilliant to Blunder, and chess coach explanations.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Free chess game analysis with Stockfish 19",
+        "Comprehensive game review and accuracy scoring",
+        "Move classifications: Brilliant, Great, Best, Excellent, Good, Inaccuracy, Mistake, Blunder",
+        "Tactical and positional move explanations",
+        "Interactive evaluation bar and dynamic eval graph",
+        "PGN and FEN import and export",
+        "Local game library with private in-browser storage"
+      ]
+    }
+    </script>
   </head>
-  <body class="bg-[#0D1428] text-[#EDF2FF] antialiased select-none overflow-x-hidden min-h-screen">
-    <div id="root"></div>
+  <body style="background-color: #171525; margin: 0; padding: 0; width: 100%; height: 100%;" class="bg-[#171525] text-[#F3EFFB] antialiased select-none overflow-x-hidden min-h-screen">
+    <div id="root">
+      <div style="position: fixed; inset: 0; width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #171525; color: #F3EFFB; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 1.5rem; box-sizing: border-box; z-index: 9999;">
+        <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.25rem; max-width: 320px; width: 100%;">
+          <!-- Soft, elegant emblem with cohesive lavender tones -->
+          <div style="width: 58px; height: 58px; border-radius: 18px; background: #201D35; border: 1px solid rgba(183, 165, 232, 0.25); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35); position: relative;">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#B7A5E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m19 19-3-6v-4a6 6 0 0 0-6-6H9l-2 3a4 4 0 0 0 1 5l2 2-3 2a2 2 0 0 0-1 2v2h13z"/>
+              <circle cx="12" cy="7" r="1.2" fill="#B7A5E8" stroke="#B7A5E8"/>
+            </svg>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+            <h1 style="margin: 0; font-size: 1.375rem; font-weight: 700; color: #F3EFFB; letter-spacing: -0.01em;">RazborChess</h1>
+            <p style="margin: 0; font-size: 0.8125rem; color: #B8AFD1; font-weight: 500;">Free Chess Analysis &amp; Game Review</p>
+          </div>
+          <div style="width: 140px; height: 3px; background-color: rgba(183, 165, 232, 0.18); border-radius: 9999px; overflow: hidden; position: relative; margin-top: 0.25rem;">
+            <div style="position: absolute; top: 0; left: 0; height: 100%; width: 45%; background: #B7A5E8; border-radius: 9999px; animation: rc-load-slide 1.4s ease-in-out infinite;"></div>
+          </div>
+          <span style="font-size: 0.6875rem; color: #8C81A8; letter-spacing: 0.05em; font-weight: 600;">Loading chess workspace...</span>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

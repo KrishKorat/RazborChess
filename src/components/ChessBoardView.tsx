@@ -152,19 +152,19 @@ export const ChessBoardView: React.FC<ChessBoardViewProps> = ({
         transition: 'background-color 150ms ease-in-out',
       };
     } else if (lastMove) {
-      styles[lastMove.from] = { backgroundColor: 'rgba(102, 133, 219, 0.30)' };
-      styles[lastMove.to] = { backgroundColor: 'rgba(102, 133, 219, 0.45)' };
+      styles[lastMove.from] = { backgroundColor: 'rgba(183, 165, 232, 0.30)' };
+      styles[lastMove.to] = { backgroundColor: 'rgba(183, 165, 232, 0.45)' };
     }
 
-    // 2. Highlight selected square (Royal blue accent)
+    // 2. Highlight selected square (soft lavender accent)
     if (selectedSquare) {
-      styles[selectedSquare] = { backgroundColor: 'rgba(102, 133, 219, 0.55)' };
+      styles[selectedSquare] = { backgroundColor: 'rgba(196, 181, 253, 0.50)' };
     }
 
-    // 3. Highlight in-check King square (Muted red alert)
+    // 3. Highlight in-check King square (soft muted red alert)
     if (isCheck && kingSquare) {
       styles[kingSquare] = {
-        background: 'radial-gradient(circle, #DC2626 0%, rgba(220, 38, 38, 0.65) 50%, transparent 85%)',
+        background: 'radial-gradient(circle, #d3503c 0%, rgba(211, 80, 60, 0.65) 50%, transparent 85%)',
       };
     }
 
@@ -180,13 +180,13 @@ export const ChessBoardView: React.FC<ChessBoardViewProps> = ({
       const isCapture = chessInstance ? Boolean(chessInstance.get(dest as Square)) : false;
       if (isCapture) {
         styles[dest] = {
-          background: 'radial-gradient(circle, transparent 52%, rgba(142, 166, 240, 0.75) 53%, rgba(142, 166, 240, 0.75) 72%, transparent 73%)',
+          background: 'radial-gradient(circle, transparent 52%, rgba(68, 59, 96, 0.65) 53%, rgba(68, 59, 96, 0.65) 72%, transparent 73%)',
           borderRadius: '50%',
           cursor: 'pointer',
         };
       } else {
         styles[dest] = {
-          background: 'radial-gradient(circle, rgba(142, 166, 240, 0.75) 24%, rgba(142, 166, 240, 0.3) 25%, transparent 26%)',
+          background: 'radial-gradient(circle, rgba(51, 45, 77, 0.65) 24%, rgba(183, 165, 232, 0.20) 25%, transparent 26%)',
           borderRadius: '50%',
           cursor: 'pointer',
         };
@@ -203,7 +203,7 @@ export const ChessBoardView: React.FC<ChessBoardViewProps> = ({
     >
       <div 
         style={{ width: boardWidth, height: boardWidth }}
-        className="rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.5)] overflow-hidden border border-[#304263] relative bg-[#131E36]"
+        className="rounded-2xl shadow-[0_12px_36px_rgba(0,0,0,0.45)] overflow-hidden border border-[#443B60] relative bg-[#201D35]"
       >
         <Chessboard
           position={fen}
@@ -213,9 +213,9 @@ export const ChessBoardView: React.FC<ChessBoardViewProps> = ({
           onSquareClick={handleSquareClick}
           customSquareStyles={customSquareStyles}
           customArrows={showArrows ? (customArrows as any) : []}
-          customDarkSquareStyle={{ backgroundColor: '#4E6F9F' }}
-          customLightSquareStyle={{ backgroundColor: '#DFE7F5' }}
-          customNotationStyle={{ fontWeight: 600, fontSize: '11px', color: '#8EA6F0' }}
+          customDarkSquareStyle={{ backgroundColor: '#8B79B5' }}
+          customLightSquareStyle={{ backgroundColor: '#E8E1F2' }}
+          customNotationStyle={{ fontWeight: 600, fontSize: '11px' }}
           showBoardNotation={true}
           animationDuration={200}
         />
